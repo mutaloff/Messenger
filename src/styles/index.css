@@ -1,0 +1,12 @@
+@import "~normalize.css";
+@import url('../assets/fonts/Lobster/lobster.css');
+
+body{
+    background-color: rgb(202, 192, 178);
+    padding: 0 0 0 5px;
+}
+
+h1{
+    font-family: 'Lobster', sans-serif;
+    color: red;
+}
