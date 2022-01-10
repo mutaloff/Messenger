@@ -1,0 +1,17 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+}
+
+.button {
+    margin-top: 50px;
+    background-color: transparent;
+    color: red;
+    font-size: 40px;
+    border: none;
+}
+
+.button:hover{
+    color: tomato;
+}

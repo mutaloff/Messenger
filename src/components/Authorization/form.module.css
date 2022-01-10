@@ -1,0 +1,57 @@
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(5, 71, 116);
+    height: 100vh;
+}
+
+.forms{
+    display: flex;
+    padding: 15px;
+    box-shadow: 0px 0px 15px rgb(14, 1, 58);
+    flex-direction: column;
+    background: linear-gradient(to right, rgb(48, 129, 184), rgb(89, 80, 168));
+}
+
+.button {
+    margin: 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 26px;
+    color: rgb(94, 182, 249);
+    background-color: transparent;
+}
+
+.button:hover {
+    color: rgb(5, 71, 116)
+   
+}
+
+span {
+    padding-top: 20px;
+    color: rgb(94, 182, 249);
+}
+
+a {
+    color: rgb(94, 182, 249);
+}
+
+.rememberMe > p {
+    color: rgb(94, 182, 249);
+    margin: 0;
+    padding-left: 8px;
+}
+
+.rememberMe{
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox {
+    background-color: rgb(94, 182, 249);
+}

@@ -1,0 +1,47 @@
+.warning {
+    font-size: 12px;
+    color: red;
+    height: 12px;
+    padding: 4px 0 2px 12px;
+}
+
+.textbox {
+    outline: none;
+    border: none;
+    padding-left: 12px;
+    background-color: transparent;
+    color: whitesmoke;
+}
+
+.textbox:-webkit-autofill,
+.textbox:-webkit-autofill:hover,
+.textbox:-webkit-autofill:focus,
+.textbox:-webkit-autofill:active {
+    box-shadow: 0 0 0 200px  rgb(94, 182, 249) inset !important;
+    -webkit-text-fill-color: whitesmoke !important;
+}
+
+
+.placeholder{
+    font-size: 14px;
+    height: 14px;
+    color: rgb(82, 73, 161);
+    display: flex;
+    padding: 2px 0 4px 12px;
+}
+
+.textbox::placeholder{
+    color: rgb(82, 73, 161);
+    font-size: 14px;
+}
+
+.input {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    background-color: rgb(94, 182, 249);
+    margin: 8px;
+    border-radius: 4px
+}
+

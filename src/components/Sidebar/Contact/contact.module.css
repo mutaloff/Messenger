@@ -1,0 +1,47 @@
+@import url('../../../assets/fonts/Exo2/exo2.css');
+
+.contact {
+    display: flex;
+    font-size: 22px;
+    padding-left: 10px;
+    align-items: center;
+    cursor: pointer;
+    color: rgb(204, 204, 204);
+    padding: 8px 0 1px 0;
+    font-family: 'Exo2';
+}
+
+.contact:hover {
+    opacity: 70%;
+}
+
+.icon{
+    padding-left: 5px;
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+}
+
+.user{
+    flex: auto;
+    margin-left: 10px;
+    border-bottom: rgba(71, 5, 5, 0.356) solid 1px ;
+    margin-right: 20px;
+    height: 100%;
+}
+
+.link {
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    text-decoration: none;
+    max-height: 60px;
+}
+
+.online {
+    font-family: 'Exo2';
+    font-size: 14px;
+    color: rgb(94, 182, 249);
+    padding-top: 5px;
+}

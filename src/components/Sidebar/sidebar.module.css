@@ -1,0 +1,26 @@
+
+.contactsBar {
+    background: linear-gradient(to right, rgb(48, 129, 184), rgb(89, 80, 168));
+    display: flex;
+    width: 400px;
+    height: 100vh;
+    max-width: 70vw;
+}
+
+
+.dragPanel {
+    width: 3px;
+    cursor: col-resize;
+    right: inherit;
+}
+
+
+.contactList {
+    width: inherit;
+}
+
+@media (max-width: 900px) {
+    .contactsBar {
+        display: none;
+    }
+} 

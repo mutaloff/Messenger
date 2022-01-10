@@ -42,6 +42,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
+        publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -54,10 +55,11 @@ module.exports = {
         })
     ],
     optimization: optimization(),
-    devtool: isDev ? 'source-map' : '',
+    //devtool: isDev ? 'source-map' : '',
     devServer: {
-        port: 5500,
-        hot: isDev
+        port: 5003,
+        hot: isDev,
+        historyApiFallback: true,
     },
     module: {
         rules: [
@@ -70,7 +72,7 @@ module.exports = {
                 type: 'asset/resource',
             },
             {
-                test: /\.m?js$/,
+                test: /\.(js)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',

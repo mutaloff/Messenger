@@ -1,0 +1,16 @@
+
+.chat{
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+}
+
+
+.chatWindow {
+    height: calc(100vh - 85px);
+    padding-bottom: 20px;
+}
+
+.textInput{
+    margin: 5px;
+}
