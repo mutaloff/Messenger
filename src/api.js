@@ -83,5 +83,13 @@ export const MessageAPI = {
         return instance.post('/get-messages', { senderLogin, receiverLogin }).then(response => {
             return response.data
         })
+    },
+    getUnreadMessagesCount(senderLogin, receiverLogin) {
+        return instance.post('/get-unread', { senderLogin, receiverLogin }).then(response => {
+            return response.data
+        })
+    },
+    setReadMessages(senderLogin, receiverLogin) {
+        return instance.post('/set-read', { senderLogin, receiverLogin })
     }
 }

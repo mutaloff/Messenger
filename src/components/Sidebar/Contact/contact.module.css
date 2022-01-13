@@ -9,6 +9,7 @@
     color: rgb(204, 204, 204);
     padding: 8px 0 1px 0;
     font-family: 'Exo2';
+    position: relative;
 }
 
 .contact:hover {
@@ -44,4 +45,16 @@
     font-size: 14px;
     color: rgb(94, 182, 249);
     padding-top: 5px;
+}
+
+.unreadCount {
+    position: absolute;
+    right: 20px;
+    font-size: 18px;
+    background-color: rgb(94, 182, 249);
+    height: 22px;
+    width: fit-content;
+    padding: 0 7px;
+    text-align: center;
+    border-radius: 50%;
 }

@@ -30,7 +30,6 @@ export const getContacts = (login) => {
     }
 }
 
-
 export const addUser = (userData) => {
     return (dispatch) => {
         UserAPI.addUser(userData.login, userData.password, userData.firstname, userData.lastname)

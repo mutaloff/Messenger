@@ -11,7 +11,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
-ReactDOM.hydrate(
+ReactDOM.render(
     <Router>
         <Provider store={store}>
             <App />

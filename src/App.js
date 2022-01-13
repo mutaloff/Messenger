@@ -12,12 +12,19 @@ import { Absence } from "./components/Chat/Absence/absence";
 import Profile from "./components/Profile/profile";
 import socket from "./socket";
 import { url } from "./config"
+import { sendMessage, updateUnread } from "./redux/actions";
+import { getContacts } from "./redux/contactReducer";
+import messageSound from './assets/sounds/say-pig.mp3'
+
 
 
 function App() {
     let { isAuth, login } = useSelector(state => state.authReducer)
     let dispatch = useDispatch()
-    console.log('started')
+
+    const soundEffect = new Audio();
+    soundEffect.src = messageSound;
+
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
             dispatch(checkAuth())
@@ -26,13 +33,19 @@ function App() {
             localStorage.removeItem('jwt')
         }
     }, [])
+
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
             socket.emit('enter', login)
             socket.emit('getOnline')
+            socket.off('getMessage')
+            socket.on('getMessage', data => {
+                soundEffect.play();
+                dispatch(sendMessage(data))
+                setTimeout(() => dispatch(getContacts(login)), 100)
+            })
         }
     })
-
     return <div>
         {
             isAuth && login
@@ -54,8 +67,6 @@ function App() {
                 </Routes >
         }
     </div>
-
 }
-
 
 export default App;

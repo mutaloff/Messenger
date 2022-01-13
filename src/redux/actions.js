@@ -1,5 +1,5 @@
-import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE } from "./types";
-import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, GETUNREADMESSAGESCOUNT, SEARCHCONTACT, SENDMESSAGE } from "./types";
+import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, UPDATEUNREADMESSAGES } from "./types";
 
 export function sendMessage(text) {
     return {
@@ -57,4 +57,3 @@ export function getUserMessages(text) {
         payload: text
     }
 }
-

@@ -11,20 +11,22 @@ import { Link } from 'react-router-dom';
 import socket from '../../../socket';
 import { url } from '../../../config';
 
+
 function ContactList(props) {
     const dispatch = useDispatch();
-    const contacts = useSelector(state => state.contactReducer.contacts);
     const [location, setLocation] = useState(url + 'messages/')
     const [onlineContacts, setOnlineContacts] = useState([])
+
+    const contacts = useSelector(state => state.contactReducer.contacts);
 
     const userLogin = useSelector(state => {
         return state.authReducer.login
     })
 
-    useEffect(() => dispatch(getContacts(userLogin)), []);
-
-    socket.on('online', (users) => setOnlineContacts(users))
-
+    useEffect(() => {
+        dispatch(getContacts(userLogin))
+        socket.on('online', (users) => setOnlineContacts(users))
+    }, []);
 
     return <div className={styles.contactList}>
         <SearchBar navPanelIsVisible={props.navPanelIsVisible} userLogin={userLogin} />
@@ -33,9 +35,11 @@ function ContactList(props) {
                 contacts.length
                     ? contacts.map((contact, i) => <Contact
                         key={i}
+                        index={i}
                         contact={contact}
                         onlineContacts={onlineContacts}
-                        link={location + contact.login} />)
+                        link={location + contact.login}
+                        navPanelIsVisible={props.navPanelIsVisible} />)
                     : props.navPanelIsVisible &&
                     <div className={styles.noContacts}>
                         <p>Контактов нет</p>

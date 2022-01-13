@@ -34,7 +34,7 @@ function ChatWindow({ messages }) {
                         </div>
                     </div>
                 ))
-                : <h1>Сообщений пока нет</h1>
+                : !messages.length && <h1>Сообщений пока нет</h1>
         }
     </div >
 }

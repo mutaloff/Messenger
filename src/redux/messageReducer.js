@@ -1,10 +1,11 @@
-import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES } from "./types"
+import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETUNREADMESSAGESCOUNT, UPDATEUNREADMESSAGES } from "./types"
 import { MessageAPI } from "../api"
 import { getUserMessages } from "./actions"
 
 const initialState = {
     messages: [],
-    receiver: null
+    receiver: null,
+    unreadMessages: []
 }
 
 export const messageReducer = (state = initialState, action) => {
@@ -24,6 +25,7 @@ export const messageReducer = (state = initialState, action) => {
                 ...state,
                 messages: action.payload
             }
+
         default:
             return state
     }
@@ -38,5 +40,14 @@ export const getMessages = (sender, receiver) => {
 }
 
 export const setMessage = (sender, receiver, text) => {
-    MessageAPI.setMessage(sender, receiver, text)
+    return (dispatch) => {
+        MessageAPI.setMessage(sender, receiver, text)
+    }
 }
+
+export const setReadMessages = (senderLogin, receiverlogin) => {
+    return (dispatch) => {
+        MessageAPI.setReadMessages(senderLogin, receiverlogin)
+    }
+}
+

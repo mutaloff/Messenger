@@ -57,7 +57,7 @@ module.exports = {
     optimization: optimization(),
     //devtool: isDev ? 'source-map' : '',
     devServer: {
-        port: 5003,
+        port: 5004,
         hot: isDev,
         historyApiFallback: true,
     },
@@ -86,6 +86,15 @@ module.exports = {
                     loader: 'babel-loader',
                     options: babelOpts('@babel/preset-react')
                 }
+            },
+            {
+                test: /\.mp3$/,
+                include: path.resolve(__dirname, './src/assets/sounds'),
+                use: [
+                    {
+                        loader: 'file-loader',
+                    },
+                ],
             }
         ],
     },
