@@ -1,10 +1,12 @@
-import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETUNREADMESSAGESCOUNT, UPDATEUNREADMESSAGES } from "./types"
-import { MessageAPI } from "../api"
-import { getUserMessages } from "./actions"
+import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETMESSAGESCOUNT } from "./types"
+import { MessageAPI, UserAPI } from "../api"
+import { getUserMessages, setCurrentReceiver, setMessagesCount } from "./actions"
 
 const initialState = {
     messages: [],
+    senderFirstname: null,
     receiver: null,
+    totalCount: 0,
     unreadMessages: []
 }
 
@@ -23,21 +25,27 @@ export const messageReducer = (state = initialState, action) => {
         case GETMESSAGES:
             return {
                 ...state,
-                messages: action.payload
+                messages: action.payload.toAdd ? [...state.messages, ...action.payload.text] : action.payload.text
             }
-
+        case GETMESSAGESCOUNT:
+            return {
+                ...state,
+                totalCount: action.payload
+            }
         default:
             return state
     }
 }
 
-export const getMessages = (sender, receiver) => {
+export const getMessages = (sender, receiver, page, toAdd) => {
     return (dispatch) => {
-        MessageAPI.getMessages(sender, receiver).then(data => {
-            dispatch(getUserMessages(data))
+        MessageAPI.getMessages(sender, receiver, page).then(data => {
+            dispatch(setMessagesCount(data.totalCount))
+            dispatch(getUserMessages(data.messages, toAdd))
         });
     }
 }
+
 
 export const setMessage = (sender, receiver, text) => {
     return (dispatch) => {
@@ -48,6 +56,14 @@ export const setMessage = (sender, receiver, text) => {
 export const setReadMessages = (senderLogin, receiverlogin) => {
     return (dispatch) => {
         MessageAPI.setReadMessages(senderLogin, receiverlogin)
+    }
+}
+
+export const setReceiver = (receiverlogin) => {
+    return (dispatch) => {
+        UserAPI.getUser(receiverlogin).then(data => {
+            dispatch(setCurrentReceiver(data))
+        })
     }
 }
 

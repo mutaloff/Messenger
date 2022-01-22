@@ -1,8 +1,9 @@
 @import url('../../../assets/fonts/Exo2/exo2.css');
 
 .contactList {
-    display: flex;
-    flex-direction: column;
+    display: table;
+    width: inherit;
+    height: calc(100vh - 95px);
 }
 
 .contacts {
@@ -10,13 +11,13 @@
     flex-direction: column;
     height: calc(100vh - 95px);
     padding-bottom: 10px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-width: thin;
 }
 
 .navPanel {
     display: flex;
     justify-content: space-around;
-    height: max-content;
 }
 
 .noContacts{

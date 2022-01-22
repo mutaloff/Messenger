@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "start": "cross-env NODE_ENV=development webpack serve --mode development --open",
-    "ssr": "node server/server.js"
+    "ssr": "node ./src/index.js"
   },
   "browserslist": "> 0.25%, not dead",
   "keywords": [

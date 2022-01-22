@@ -9,12 +9,12 @@ import SearchBar from '../SearchBar/searchBar';
 import { getContacts } from '../../../redux/contactReducer';
 import { Link } from 'react-router-dom';
 import socket from '../../../socket';
-import { url } from '../../../config';
+import { path } from '../../../config';
 
 
 function ContactList(props) {
     const dispatch = useDispatch();
-    const [location, setLocation] = useState(url + 'messages/')
+    const [location, setLocation] = useState(path + 'messages/')
     const [onlineContacts, setOnlineContacts] = useState([])
 
     const contacts = useSelector(state => state.contactReducer.contacts);
@@ -28,32 +28,38 @@ function ContactList(props) {
         socket.on('online', (users) => setOnlineContacts(users))
     }, []);
 
+
     return <div className={styles.contactList}>
         <SearchBar navPanelIsVisible={props.navPanelIsVisible} userLogin={userLogin} />
         <div className={styles.contacts}>
             {
-                contacts.length
-                    ? contacts.map((contact, i) => <Contact
-                        key={i}
-                        index={i}
-                        contact={contact}
-                        onlineContacts={onlineContacts}
-                        link={location + contact.login}
-                        navPanelIsVisible={props.navPanelIsVisible} />)
-                    : props.navPanelIsVisible &&
-                    <div className={styles.noContacts}>
-                        <p>Контактов нет</p>
+                !props.isDragging
+                    ? contacts.length
+                        ? contacts.map((contact, i) => <Contact
+                            key={i}
+                            index={i}
+                            contact={contact}
+                            onlineContacts={onlineContacts}
+                            link={location + contact.login}
+                            navPanelIsVisible={props.navPanelIsVisible} />)
+                        : props.navPanelIsVisible &&
+                        <div className={styles.noContacts}>
+                            <p>Контактов нет</p>
+                        </div>
+                    : <div className={styles.noContacts}>
+                        <p style={{ fontSize: '42px' }}>⇆</p>
                     </div>
             }
         </div>
         {
             props.navPanelIsVisible && <div className={styles.navPanel}>
-                <Link to={url + 'users'}><img src={userLogo} className={styles.img} onClick={() => setLocation(url + 'users/')} /></Link>
-                <Link to={url + 'messages'}><img src={messageLogo} className={styles.img} onClick={() => setLocation(url + 'messages/')} /></Link>
-                <Link to={url + 'settings'}><img src={settingsLogo} className={styles.img} /></Link>
+                <Link to={path + 'users'}><img src={userLogo} className={styles.img} onClick={() => setLocation(path + 'users/')} /></Link>
+                <Link to={path + 'messages'}><img src={messageLogo} className={styles.img} onClick={() => setLocation(path + 'messages/')} /></Link>
+                <Link to={path + 'settings'}><img src={settingsLogo} className={styles.img} /></Link>
             </div>
         }
     </div>
 }
+
 
 export default ContactList;

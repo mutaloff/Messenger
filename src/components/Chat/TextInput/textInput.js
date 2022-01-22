@@ -13,7 +13,10 @@ function TextInput(props) {
     const dispatch = useDispatch();
 
     const receiver_login = useSelector(state => {
-        return state.messageReducer.receiver
+        return state.messageReducer.receiver?.login
+    })
+    const firstname = useSelector(state => {
+        return state.authReducer.userData?.firstname
     })
 
     const sender_login = useSelector(state => {
@@ -31,10 +34,10 @@ function TextInput(props) {
     }
     const handleClick = (e) => {
         setTimeout(() => dispatch(getContacts(sender_login)), 100)
-        text.length && socket.emit('sendMessage', { sender_login, receiver_login, text });
+        text.length && socket.emit('sendMessage', { sender_login, receiver_login, text, firstname });
         text.length && dispatch(setMessage(sender_login, receiver_login, text))
         text.length && setText('');
-        text.length && dispatch(sendMessage({ sender_login, receiver_login, text }));
+        text.length && dispatch(sendMessage({ sender_login, receiver_login, text, firstname }));
     }
     return <div className={styles.sender}>
         <input onChange={handleInput} onKeyPress={handleKeyPress} className={styles.input} value={text} placeholder='Введите сообщение...' />

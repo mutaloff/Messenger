@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authUser } from "../../redux/authReducer";
 import { Link } from "react-router-dom";
-import { url } from "../../config";
+import { path } from "../../config";
 
 export function Signin(props) {
     const dispatch = useDispatch();
@@ -37,6 +37,6 @@ export function Signin(props) {
             </div>
             <button onClick={entryHandler} className={styles.button}>Войти</button>
         </div>
-        <span className={styles.span}>Еще нет аккаунта? <Link to={url + 'signup'}>Зарегистрироваться</Link></span>
+        <span className={styles.span}>Еще нет аккаунта? <Link to={path + 'signup'}>Зарегистрироваться</Link></span>
     </div>
 }

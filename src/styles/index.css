@@ -2,6 +2,9 @@
 
 * {
     overflow: hidden;
+    touch-action: none;
+    -webkit-overflow-scrolling: none;
+    overscroll-behavior-y: none;
 }
 
 

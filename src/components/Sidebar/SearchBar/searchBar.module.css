@@ -10,6 +10,8 @@
     background-color: rgb(94, 182, 249);
     border: none;
     outline: none;
+    max-height: 18px;
+    height: 18px;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
     color:whitesmoke;
@@ -21,6 +23,7 @@
 
 .editImg{
     min-width: 20px;
+    width: inherit;
     height: 20px;
     margin: 0 8px;
 }

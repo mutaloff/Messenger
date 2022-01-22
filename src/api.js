@@ -1,7 +1,7 @@
 import * as axios from 'axios';
+import { url } from './config';
 
-
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = url;
 
 const instance = axios.create({
     baseURL: BASE_URL,
@@ -13,13 +13,12 @@ instance.interceptors.request.use((config) => {
     return config
 })
 
-
 instance.interceptors.response.use((config) => {
     return config
 }, (async error => {
     if (error.response.status == 401) {
         const originalReq = error.config;
-        axios.get(BASE_URL + '/refresh', { withCredentials: true }).then(response => {
+        axios.post(BASE_URL + '/refresh', localStorage.getItem('jwt'), { withCredentials: true }).then(response => {
             localStorage.setItem('jwt', response.data.accessToken)
             return instance.request(originalReq)
         }).catch(err => console.log(err))
@@ -40,7 +39,11 @@ export const UserAPI = {
             return response.data
         })
     },
-
+    getUser(login) {
+        return instance.get(`/users/@${login}`).then(response => {
+            return response.data
+        })
+    },
     checkUser(login) {
         return instance.get('/users/check/@' + login).then(response => {
             return response.data
@@ -67,7 +70,7 @@ export const AuthAPI = {
         })
     },
     checkAuth() {
-        return axios.post(BASE_URL + '/refresh', { accessToken: localStorage.getItem('jwt') }, { withCredentials: true }).then(response => {
+        return axios.post(BASE_URL + 'refresh', { accessToken: localStorage.getItem('jwt') }, { withCredentials: true }).then(response => {
             return response.data
         })
     }
@@ -79,8 +82,8 @@ export const MessageAPI = {
             return response.data
         })
     },
-    getMessages(senderLogin, receiverLogin) {
-        return instance.post('/get-messages', { senderLogin, receiverLogin }).then(response => {
+    getMessages(senderLogin, receiverLogin, page) {
+        return instance.post('/get-messages', { senderLogin, receiverLogin, page }).then(response => {
             return response.data
         })
     },

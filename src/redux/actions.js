@@ -1,13 +1,13 @@
-import { CURRENTRECEIVER, GETMESSAGES, GETUNREADMESSAGESCOUNT, SEARCHCONTACT, SENDMESSAGE } from "./types";
-import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, UPDATEUNREADMESSAGES } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, GETUSERINFORMATION, SETSIDEBARWIDTH } from "./types";
+import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT } from "./types";
 
-export function sendMessage(text) {
+
+export function sendMessage(data) {
     return {
         type: SENDMESSAGE,
-        payload: text
+        payload: data
     }
 }
-
 
 export function createContacts(contacts) {
     return {
@@ -51,9 +51,23 @@ export function setCurrentReceiver(receiverData) {
     }
 }
 
-export function getUserMessages(text) {
+export function getUserMessages(text, toAdd) {
     return {
         type: GETMESSAGES,
-        payload: text
+        payload: { text, toAdd }
+    }
+}
+
+export function setMessagesCount(page) {
+    return {
+        type: GETMESSAGESCOUNT,
+        payload: page
+    }
+}
+
+export function getUserInfo(data) {
+    return {
+        type: GETUSERINFORMATION,
+        payload: data
     }
 }

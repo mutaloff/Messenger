@@ -1,4 +1,6 @@
 import io from "socket.io-client";
-const socket = io('http://localhost:3000', { transports: ['websocket'] });
+import { url } from "./config";
+
+const socket = io(url, { transports: ['websocket'] });
 
 export default socket

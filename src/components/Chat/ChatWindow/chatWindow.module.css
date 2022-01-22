@@ -1,3 +1,5 @@
+@import url('../../../assets/fonts/Exo2/exo2.css');
+
 .window{
     padding: 20px;
     overflow-y: scroll;
@@ -6,11 +8,19 @@
     height: inherit;
 }
 
+.main{
+    display: table;
+    overflow: hidden;
+}
+
+.messageBlock {
+    display: block;
+    margin-right: 100px;
+}
+
 .message {
     display: flex;
-    min-height: 32px;
-    align-items: center;
-    padding: 12px 0 12px 0;
+    padding: 10px 0;
 }
 
 .message:hover{
@@ -18,15 +28,20 @@
 }
 
 .messageText {
-    font-size: 20px;
+    font-size: 18px;
     list-style-type: none;
     padding-left: 20px;
+    padding-top: 5px;
+
+    display: block;
+    word-break: break-word;
+    width: available;
 }
 
 .logo {
     width: 45px;
     height: 45px;
-    align-self: center;
+    min-width: 45px;
 }
 
 .username {
@@ -34,4 +49,22 @@
     font-size: 20px;
     list-style-type: none;
     padding-left: 20px;
+    font-family: 'Exo2';
+}
+
+.time{
+    right: 20px;
+    flex: auto;
+    min-width: 50px;
+    text-align: right;
+    color: rgb(89, 80, 168);
+    font-size: 16px;
+}
+
+.date {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    min-height: fit-content;
+    color: rgb(89, 80, 168);
 }

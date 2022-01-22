@@ -42,7 +42,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
-        publicPath: '/'
+        publicPath: '/repository/student/sts-07/13676/dist/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -57,7 +57,7 @@ module.exports = {
     optimization: optimization(),
     //devtool: isDev ? 'source-map' : '',
     devServer: {
-        port: 5004,
+        port: 5005,
         hot: isDev,
         historyApiFallback: true,
     },

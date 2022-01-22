@@ -4,7 +4,7 @@ import styles from './form.module.css'
 import { useDispatch } from 'react-redux';
 import { Input } from './Input/input';
 import { Link } from 'react-router-dom';
-import { url } from '../../config';
+import { path } from '../../config';
 
 export function Signup(props) {
     const dispatch = useDispatch()
@@ -47,6 +47,6 @@ export function Signup(props) {
             <button onClick={signupHandler} className={styles.button}>Регистрация</button>
 
         </div>
-        <span className={styles.span}>Уже есть аккаунт? <Link to={url + 'login'}>Выполнить вход</Link></span>
+        <span className={styles.span}>Уже есть аккаунт? <Link to={path + 'login'}>Выполнить вход</Link></span>
     </div>
 }

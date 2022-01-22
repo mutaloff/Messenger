@@ -1,11 +1,12 @@
-import { authContact, logoutContact, checkContact } from "./actions"
-import { AUTHCONTACT, CHECKCONTACT, LOGOUTCONTACT } from "./types"
-import { AuthAPI } from "../api"
+import { authContact, logoutContact, checkContact, getUserInfo } from "./actions"
+import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT } from "./types"
+import { AuthAPI, UserAPI } from "../api"
 
 
 const initialState = {
     isAuth: false,
-    login: undefined
+    login: undefined,
+    userData: undefined
 }
 
 
@@ -15,7 +16,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuth: true,
-                login: action.payload
+                login: action.payload,
             }
         case LOGOUTCONTACT:
             return {
@@ -27,7 +28,12 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuth: true,
-                login: action.payload
+                login: action.payload,
+            }
+        case GETUSERINFORMATION:
+            return {
+                ...state,
+                userData: action.payload
             }
         default:
             return state
@@ -62,3 +68,8 @@ export const checkAuth = () => {
     }
 }
 
+export const getUser = (login) => {
+    return (dispatch) => {
+        UserAPI.getUser(login).then(data => dispatch(getUserInfo(data)))
+    }
+}

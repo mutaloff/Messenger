@@ -7,11 +7,11 @@ import { Signin } from "./components/Authorization/signin";
 import { useDispatch, useSelector } from "react-redux";
 import { Settings } from "./components/Settings/settings";
 import styles from './styles/app.module.css'
-import { checkAuth } from "./redux/authReducer";
+import { checkAuth, getUser } from "./redux/authReducer";
 import { Absence } from "./components/Chat/Absence/absence";
 import Profile from "./components/Profile/profile";
 import socket from "./socket";
-import { url } from "./config"
+import { path } from "./config"
 import { sendMessage, updateUnread } from "./redux/actions";
 import { getContacts } from "./redux/contactReducer";
 import messageSound from './assets/sounds/say-pig.mp3'
@@ -20,8 +20,8 @@ import messageSound from './assets/sounds/say-pig.mp3'
 
 function App() {
     let { isAuth, login } = useSelector(state => state.authReducer)
-    let dispatch = useDispatch()
 
+    let dispatch = useDispatch()
     const soundEffect = new Audio();
     soundEffect.src = messageSound;
 
@@ -52,18 +52,18 @@ function App() {
                 ? <div className={styles.app}>
                     <Sidebar />
                     <Routes>
-                        <Route path={'*'} element={<Navigate replace to={url + 'messages'} />} />
-                        <Route path={url + 'messages/:login'} element={<Chat />} />
-                        <Route path={url + 'settings'} element={<Settings />} />
-                        <Route path={url + 'messages'} element={<Absence text='Выберите чат, чтобы начать переписку' />} />
-                        <Route path={url + 'users'} element={<Absence text='Выберите контакт' />} />
-                        <Route path={url + 'users/:login'} element={<Profile />} />
+                        <Route path={'*'} element={<Navigate replace to={path + 'messages'} />} />
+                        <Route path={path + 'messages/:login'} element={<Chat />} />
+                        <Route path={path + 'settings'} element={<Settings />} />
+                        <Route path={path + 'messages'} element={<Absence text='Выберите чат, чтобы начать переписку' />} />
+                        <Route path={path + 'users'} element={<Absence text='Выберите контакт' />} />
+                        <Route path={path + 'users/:login'} element={<Profile />} />
                     </Routes>
                 </div>
                 : <Routes>
-                    <Route path={'*'} element={!localStorage.getItem('jwt') && <Navigate replace to={url + 'login'} />} />
-                    <Route path={url + 'login'} element={<Signin />} />
-                    <Route path={url + 'signup'} element={<Signup />} />
+                    <Route path={'*'} element={!localStorage.getItem('jwt') && <Navigate replace to={path + 'login'} />} />
+                    <Route path={path + 'login'} element={<Signin />} />
+                    <Route path={path + 'signup'} element={<Signup />} />
                 </Routes >
         }
     </div>
