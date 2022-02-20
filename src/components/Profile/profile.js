@@ -10,9 +10,9 @@ const Profile = (props) => {
 
     return <div className={styles.profileWindow}>
         {
-            contacts.map(contact => (
+            contacts.map((contact, i) => (
                 contact.login === login &&
-                <div className={styles.profile}>
+                <div className={styles.profile} key={i}>
                     <img src={userLogo} className={styles.img} />
                     <div className={styles.info}>
                         <div className={styles.titles}>

@@ -1,6 +1,7 @@
 import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETMESSAGESCOUNT } from "./types"
 import { MessageAPI, UserAPI } from "../api"
 import { getUserMessages, setCurrentReceiver, setMessagesCount } from "./actions"
+import { getContacts } from "./contactReducer"
 
 const initialState = {
     messages: [],
@@ -39,17 +40,23 @@ export const messageReducer = (state = initialState, action) => {
 
 export const getMessages = (sender, receiver, page, toAdd) => {
     return (dispatch) => {
-        MessageAPI.getMessages(sender, receiver, page).then(data => {
-            dispatch(setMessagesCount(data.totalCount))
-            dispatch(getUserMessages(data.messages, toAdd))
-        });
+        MessageAPI.getMessages(sender, receiver, page)
+            .then(data => {
+                dispatch(setMessagesCount(data.totalCount))
+                dispatch(getUserMessages(data.messages, toAdd))
+            })
+            .then(data => {
+                dispatch(setReadMessages(sender, receiver))
+            })
     }
 }
-
 
 export const setMessage = (sender, receiver, text) => {
     return (dispatch) => {
         MessageAPI.setMessage(sender, receiver, text)
+            .then(data => {
+                dispatch(getContacts(sender))
+            });
     }
 }
 

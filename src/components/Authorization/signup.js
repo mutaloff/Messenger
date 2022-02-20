@@ -45,8 +45,7 @@ export function Signup(props) {
             <Input type='text' value={firstname} changeHandler={firstnameChangeHandler} placeholder='Введите имя' />
             <Input type='text' value={lastname} changeHandler={lastnameChangeHandler} placeholder='Введите фамилию' />
             <button onClick={signupHandler} className={styles.button}>Регистрация</button>
-
         </div>
-        <span className={styles.span}>Уже есть аккаунт? <Link to={path + 'login'}>Выполнить вход</Link></span>
+        <span className={styles.span}>Уже есть аккаунт? <Link to={path + '/login'}>Выполнить вход</Link></span>
     </div>
 }

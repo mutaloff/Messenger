@@ -18,10 +18,10 @@ instance.interceptors.response.use((config) => {
 }, (async error => {
     if (error.response.status == 401) {
         const originalReq = error.config;
-        axios.post(BASE_URL + '/refresh', localStorage.getItem('jwt'), { withCredentials: true }).then(response => {
+        axios.post(BASE_URL + 'refresh', localStorage.getItem('jwt'), { withCredentials: true }).then(response => {
             localStorage.setItem('jwt', response.data.accessToken)
             return instance.request(originalReq)
-        }).catch(err => console.log(err))
+        }).catch()
     }
 }))
 
@@ -53,6 +53,24 @@ export const UserAPI = {
         return instance.get('/search/@' + login).then(response => {
             return response.data
         })
+    },
+    checkSubscription(ownerLogin, contactLogin) {
+        return instance.post(BASE_URL + 'check-subscription', { ownerLogin, contactLogin }).then(response => {
+            return response.data
+        })
+    },
+    subscribe(ownerLogin, contactLogin) {
+        return instance.post(BASE_URL + 'set-subscription', { ownerLogin, contactLogin }).then(response => {
+            return response.data
+        })
+    },
+    unsubscribe(ownerLogin, contactLogin) {
+        return instance.post(BASE_URL + 'set-unsubscription', { ownerLogin, contactLogin }).then(response => {
+            return response.data
+        })
+    },
+    setLeavingTime(login) {
+        return instance.post(BASE_URL + 'set-leaving-time', { login })
     }
 }
 
@@ -66,11 +84,13 @@ export const AuthAPI = {
     },
     logoutUser(login) {
         return instance.post('/logout', { login }).then(response => {
+            window.location.reload()
             return response.data
         })
     },
     checkAuth() {
         return axios.post(BASE_URL + 'refresh', { accessToken: localStorage.getItem('jwt') }, { withCredentials: true }).then(response => {
+            if (response.data === 200) window.location.reload()
             return response.data
         })
     }

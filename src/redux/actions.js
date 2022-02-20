@@ -1,5 +1,5 @@
-import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, GETUSERINFORMATION, SETSIDEBARWIDTH } from "./types";
-import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME } from "./types";
+import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, SETSUBSCRIPTION } from "./types";
 
 
 export function sendMessage(data) {
@@ -15,7 +15,6 @@ export function createContacts(contacts) {
         payload: contacts
     }
 }
-
 
 export function authContact(login) {
     return {
@@ -69,5 +68,26 @@ export function getUserInfo(data) {
     return {
         type: GETUSERINFORMATION,
         payload: data
+    }
+}
+
+export function setPage(page) {
+    return {
+        type: SETPAGE,
+        payload: page
+    }
+}
+
+export function updateLeavingTime(login) {
+    return {
+        type: UPDATELEAVINGTIME,
+        payload: login
+    }
+}
+
+export function setUserSubscription(subscription) {
+    return {
+        type: SETSUBSCRIPTION,
+        payload: subscription
     }
 }

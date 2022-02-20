@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ContactList from "./ContactsBar/contactsBar";
 import DragPanel from "./DragPanel/dragPanel";
 import styles from './sidebar.module.css';
 import { useWindowSize } from "../../customHooks/useWindowSize";
+import { useSelector } from "react-redux";
 
 function Sidebar(props) {
-    let sidebarWidth = localStorage.getItem('sidebarWidth') ? localStorage.getItem('sidebarWidth') : 400
+    let sidebarWidth = localStorage.getItem('sidebarWidth') ? localStorage.getItem('sidebarWidth') : 400;
+
+    const [width, height] = useWindowSize()
+
     const [state, setState] = useState({
         isDragging: false,
         width: sidebarWidth,
         navPanelIsVisible: true
+    })
+    const login = useSelector(state => {
+        return state.messageReducer.receiver
     })
 
     const dragHandler = (e) => {
@@ -22,12 +29,18 @@ function Sidebar(props) {
                 ...prevState, width: 63, navPanelIsVisible: false
             }))
         }
+        if (state.width > 0.7 * window.innerWidth) {
+            setState(prevState => ({
+                ...prevState, width: 0.7 * window.innerWidth, navPanelIsVisible: true
+            }))
+        }
     }
-    useEffect(() => (
+    useEffect(() => {
         setState(prevState => ({
             ...prevState, navPanelIsVisible: state.width < 200 ? false : true
         }))
-    ), [])
+    }, [])
+
 
     const dragStartHandler = (e) => {
         let pic = new Image()
@@ -47,17 +60,22 @@ function Sidebar(props) {
             ...prevState, isDragging: false
         }))
     }
-    const [width, height] = useWindowSize()
 
     return <div className={styles.contactsBar}
         style={state.width < 0.7 * window.innerWidth
             ? { minWidth: state.width + 'px', width: state.width + 'px' }
             : width > 700
                 ? { minWidth: 0.7 * window.innerWidth + 'px', width: 0.7 * window.innerWidth + 'px' }
-                : { width: '100%', minWidth: '100%' }}>
+                : login
+                    ? { display: 'none' }
+                    : { width: '100%', minWidth: '100%' }}>
         <div className={styles.contactList}>
             {
-                <ContactList navPanelIsVisible={state.navPanelIsVisible} isDragging={state.isDragging} />
+                <ContactList
+                    navPanelIsVisible={state.navPanelIsVisible}
+                    isDragging={state.isDragging}
+                    width={state.width}
+                />
             }
         </div>
         <div

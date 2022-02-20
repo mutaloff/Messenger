@@ -2,12 +2,10 @@
 
 * {
     overflow: hidden;
-    touch-action: none;
-    -webkit-overflow-scrolling: none;
-    overscroll-behavior-y: none;
+    margin: 0;
 }
 
 
 body{
-    background-color: rgb(204, 201, 196);
+    background-color: rgb(199, 199, 199);
 }

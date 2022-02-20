@@ -1,10 +1,11 @@
 import { UserAPI } from "../api"
 import { createContacts, searchContact } from "./actions"
-import { CREATECONTACT, SEARCHCONTACT } from "./types"
+import { CREATECONTACT, SEARCHCONTACT, SETSUBSCRIPTION, UPDATELEAVINGTIME } from "./types"
 
 
 const initialState = {
-    contacts: []
+    contacts: [],
+    subscription: false
 }
 
 export const contactReducer = (state = initialState, action) => {
@@ -13,6 +14,16 @@ export const contactReducer = (state = initialState, action) => {
             return {
                 ...state,
                 contacts: action.payload
+            }
+        case SETSUBSCRIPTION:
+            return {
+                ...state,
+                subscription: action.payload
+            }
+        case UPDATELEAVINGTIME:
+            return {
+                ...state,
+                contacts: changeLeavingTime(state.contacts, action.payload)
             }
         case SEARCHCONTACT:
             return {
@@ -24,16 +35,23 @@ export const contactReducer = (state = initialState, action) => {
     }
 }
 
+export const changeLeavingTime = (contacts, login) => {
+    return contacts.map(contact => {
+        if (contact.login === login) {
+            contact.last_entrance = Date.now()
+        }
+        return contact
+    })
+}
+
 export const getContacts = (login) => {
     return (dispatch) => {
-        UserAPI.getContacts(login).then(data => dispatch(createContacts(data)));
+        UserAPI.getContacts(login).then(data => dispatch(createContacts(data)))
     }
 }
 
 export const addUser = (userData) => {
-    return (dispatch) => {
-        UserAPI.addUser(userData.login, userData.password, userData.firstname, userData.lastname)
-    }
+    UserAPI.addUser(userData.login, userData.password, userData.firstname, userData.lastname)
 }
 
 export const searchUser = (login) => {

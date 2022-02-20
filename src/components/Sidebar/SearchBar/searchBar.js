@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from './searchBar.module.css'
 import editIcon from '../../../assets/imgs/edit_icon.png'
 import searchIcon from '../../../assets/imgs/search_icon.png'
+import contactOption from '../../../assets/imgs/contact_option.png'
 import { searchUser, getContacts } from "../../../redux/contactReducer";
 import { useDispatch } from "react-redux";
 
@@ -17,6 +18,7 @@ function SearchBar(props) {
             dispatch(searchUser(e.target.value))
         }
     }
+
     return <div className={styles.searchBar}>
 
         {
@@ -31,7 +33,11 @@ function SearchBar(props) {
                 />
             </>
         }
-        <img src={editIcon} className={styles.editImg}></img>
+        <img
+            src={props.location === 'messages/' ? editIcon : contactOption}
+            className={styles.editImg}
+            onClick={() => props.popupDisplayHandler()}>
+        </img>
     </div>
 }
 

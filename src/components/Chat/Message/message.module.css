@@ -1,0 +1,62 @@
+.main{
+    display: table;
+    overflow: hidden;
+    width: 100%;
+}
+
+.messageBlock {
+    display: block;
+    width: 100%
+
+}
+
+.message {
+    display: flex;
+    padding: 10px 0;
+    position: relative;
+}
+
+.message:hover{
+    opacity: 70%;
+}
+
+.messageText {
+    font-size: 18px;
+    list-style-type: none;
+    padding-left: 20px;
+    padding-top: 5px;
+    display: block;
+    word-break: break-word;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+}
+
+.username {
+    color: rgb(89, 80, 168);
+    font-size: 20px;
+    list-style-type: none;
+    padding-left: 20px;
+    font-family: 'Exo2';
+}
+
+.time{
+    padding-top: 5px;
+    min-width: 50px;
+    color: rgb(89, 80, 168);
+    font-size: 16px;
+    top: 0px;
+    text-align: center;
+    padding-left: 8px;
+}
+
+.date {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    min-height: fit-content;
+    color: rgb(89, 80, 168);
+}

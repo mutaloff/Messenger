@@ -2,8 +2,6 @@
 .contactsBar {
     background: linear-gradient(to right, rgb(48, 129, 184), rgb(89, 80, 168));
     display: flex;
-    height: 100%;
-    max-width: 70vw;
 }
 
 

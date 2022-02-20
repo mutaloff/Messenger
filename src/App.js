@@ -17,7 +17,6 @@ import { getContacts } from "./redux/contactReducer";
 import messageSound from './assets/sounds/say-pig.mp3'
 
 
-
 function App() {
     let { isAuth, login } = useSelector(state => state.authReducer)
 
@@ -42,7 +41,7 @@ function App() {
             socket.on('getMessage', data => {
                 soundEffect.play();
                 dispatch(sendMessage(data))
-                setTimeout(() => dispatch(getContacts(login)), 100)
+                setTimeout(() => dispatch(getContacts(login)), 10)
             })
         }
     })

@@ -1,0 +1,24 @@
+.sidebarPopup {
+    z-index: 1;
+    height: 40px;
+	width: fit-content;
+    height: fit-content;
+    position: absolute;
+    right: 8px;
+	padding: 10px 10px;
+	background-color: rgb(64, 60, 126);
+	border-radius: 3px;
+    color: whitesmoke;
+    outline: none;
+    border: 1px solid rgb(68, 68, 68);
+}
+
+.popupItem{
+    padding: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.popupItem:hover {
+    color: rgb(184, 169, 169);
+}

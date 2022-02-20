@@ -37,6 +37,6 @@ export function Signin(props) {
             </div>
             <button onClick={entryHandler} className={styles.button}>Войти</button>
         </div>
-        <span className={styles.span}>Еще нет аккаунта? <Link to={path + 'signup'}>Зарегистрироваться</Link></span>
+        <span className={styles.span}>Еще нет аккаунта? <Link to={path + '/signup'}>Зарегистрироваться</Link></span>
     </div>
 }

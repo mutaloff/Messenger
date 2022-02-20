@@ -1,14 +1,52 @@
+@import url('../../assets/fonts/Exo2/exo2.css');
 
 .chat{
     display: flex;
     flex-direction: column;
     flex: auto;
-    height: 100%;
+}
+
+.infoBar {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    padding-left: 20px;
+    color: rgb(105, 104, 182);
+    text-decoration: none;
+    position: relative;
+    border-bottom: rgb(180, 180, 180) solid 1px;
+}
+
+.backButton {
+    position: absolute;
+    cursor: pointer;
+    left: 0px;
+    color: rgb(133, 119, 255);
+    display: flex;
+    text-decoration: none;
+}
+
+.backButton:hover {
+    color: rgb(110, 96, 240);
+}
+
+.back{
+    font-size: 18px;
+    padding-left: 4px;
+    font-family: 'Exo2';
+    padding-top: 2px;
+}
+
+
+h4 {
+    padding-left: 8px;
+    font-size: 26px;
 }
 
 
 .chatWindow {
-    height: calc(100vh - 85px);
     padding-bottom: 20px;
 }
 
