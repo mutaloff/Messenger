@@ -1,11 +1,11 @@
 import { UserAPI } from "../api"
 import { createContacts, searchContact } from "./actions"
-import { CREATECONTACT, SEARCHCONTACT, SETSUBSCRIPTION, UPDATELEAVINGTIME } from "./types"
+import { CREATECONTACT, SEARCHCONTACT, SETSUBSCRIPTION, UPDATELEAVINGTIME, RESETMESSAGECOUNT, ADDTOFOLDERS } from "./types"
 
 
 const initialState = {
     contacts: [],
-    subscription: false
+    subscription: false,
 }
 
 export const contactReducer = (state = initialState, action) => {
@@ -30,6 +30,11 @@ export const contactReducer = (state = initialState, action) => {
                 ...state,
                 contacts: action.payload
             }
+        case RESETMESSAGECOUNT:
+            return {
+                ...state,
+                contacts: setMessageCountZero(state.contacts, action.payload)
+            }
         default:
             return state
     }
@@ -39,6 +44,15 @@ export const changeLeavingTime = (contacts, login) => {
     return contacts.map(contact => {
         if (contact.login === login) {
             contact.last_entrance = Date.now()
+        }
+        return contact
+    })
+}
+
+export const setMessageCountZero = (contacts, login) => {
+    return contacts.map(contact => {
+        if (contact.login === login) {
+            contact.messages_count = 0
         }
         return contact
     })

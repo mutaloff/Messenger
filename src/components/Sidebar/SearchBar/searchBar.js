@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './searchBar.module.css'
 import editIcon from '../../../assets/imgs/edit_icon.png'
 import searchIcon from '../../../assets/imgs/search_icon.png'
 import contactOption from '../../../assets/imgs/contact_option.png'
 import { searchUser, getContacts } from "../../../redux/contactReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setPopupOption } from "../../../redux/actions";
+import { UserAPI } from "../../../api";
 
 function SearchBar(props) {
     const [searchValue, setSearchValue] = useState('');
+
     const dispatch = useDispatch()
+
+    const [contactDelete, setContactDelete] = useState(false)
+
+    const [createFolder, setCreateFolder] = useState(false)
+
+    const popupOption = useSelector(state => state.appReducer.popupOption)
+
+    const readyPoint = useSelector(state => state.appReducer.readyPoint)
+
+    const readyData = useSelector(state => state.appReducer.readyData)
+
+    const cancelHandler = () => {
+        if (readyPoint && popupOption === 'createFolder') {
+            UserAPI.createFolder(props.userLogin, readyData)
+        }
+        dispatch(setPopupOption(null))
+        dispatch(getContacts(props.userLogin))
+    }
 
     const changeHandler = (e) => {
         setSearchValue(e.target.value)
@@ -19,8 +40,18 @@ function SearchBar(props) {
         }
     }
 
-    return <div className={styles.searchBar}>
+    useEffect(() => {
+        if (popupOption === 'deleteContact') {
+            setContactDelete(true)
+        } else if (popupOption === 'createFolder') {
+            setCreateFolder(true)
+        } else if (!popupOption) {
+            setContactDelete(false)
+            setCreateFolder(false)
+        }
+    }, [popupOption])
 
+    return <div className={styles.searchBar}>
         {
             props.navPanelIsVisible &&
             <>
@@ -31,13 +62,21 @@ function SearchBar(props) {
                     value={searchValue}
                     onChange={changeHandler}
                 />
+                {
+                    (contactDelete || createFolder) && <div className={styles.cancel} onClick={() => cancelHandler()}>
+                        {readyPoint ? 'Готово' : 'Отмена'}
+                    </div>
+                }
+
             </>
         }
-        <img
-            src={props.location === 'messages/' ? editIcon : contactOption}
-            className={styles.editImg}
-            onClick={() => props.popupDisplayHandler()}>
-        </img>
+        {
+            !contactDelete && !createFolder && <img
+                src={props.location === 'messages/' ? editIcon : contactOption}
+                className={styles.editImg}
+                onClick={() => props.popupDisplayHandler()}>
+            </img>
+        }
     </div>
 }
 

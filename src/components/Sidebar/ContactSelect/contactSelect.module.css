@@ -1,12 +1,28 @@
 @import url('../../../assets/fonts/Exo2/exo2.css');
 
-.searchBar{
-    font-family: 'Exo2';
-    height: 30px;
+.selectWrapper {
     display: flex;
+    flex-direction: column;
+}
+
+.selectedContact {
+    display: flex;
+    position: relative;
+}
+
+.roundCheckbox{
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+.folderNameWrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding-top: 4px;
+    justify-content: space-around;
+    padding: 8px 0;
+    color: rgb(94, 182, 249);
 }
 
 .input {
@@ -27,19 +43,7 @@
     color:rgb(115, 88, 165)
 }
 
-
-.editImg{
-    min-width: 22px;
-    width: 22px;
-    height: 22px;
-    margin: 0 8px;
-}
-
-.editImg:hover {
-    opacity: 70%;
-}
-
-.searchImg{
+.folderImg{
     background-color: rgb(94, 182, 249);
     min-width: 22px;
     height: 22px;
@@ -48,14 +52,19 @@
     margin-left: 10px;
 }
 
-.cancel {
-    padding: 0 6px;
-    min-width: 60px;
-    color: rgb(94, 182, 249);
-    font-size: 18px;
-}
-
-.cancel:hover {
-    opacity: 70%;
+.folderNameAlert {
+    width: 28px;
+    text-align: center;
+    font-size: 22px;
     cursor: pointer;
 }
+.folderNameAlert:hover {
+    opacity: 80%;
+}
+
+.folderPrompt {
+    text-align: right;
+    color: red;
+    padding-right: 10px;
+}
+  

@@ -1,32 +1,44 @@
 import styles from './message.module.css'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import userLogo from '../../../assets/imgs/user_icon.png';
+import { useRef } from 'react';
 
-function Message({ message, messages, index }) {
+function Message({ message, messages, index, loginTo }) {
+
+    const myRef = useRef(null)
+
+    useEffect(() => myRef.current?.scrollIntoView(), [loginTo, myRef])
+
+    const showDate = !(message.date?.substr(0, 10) == messages[index + 1]?.date?.substr(0, 10)) && message.date;
+
+    const isNewMessage = messages[index + 1]?.is_read == 1 && message.is_read == 0 && messages[0]?.sender_login === loginTo
+
+    const repeatUserIcon = message.firstname != messages[index + 1]?.firstname
+
     return <div className={styles.main}>
         {
-            (!(message.date?.substr(0, 10) == messages[index + 1]?.date?.substr(0, 10)) && message.date) &&
-            <div className={styles.date} >
+            showDate && <div className={styles.date} >
                 {
                     `${messages[index]?.date?.substr(8, 2)}.${messages[index]?.date?.substr(5, 2)}.${messages[index]?.date?.substr(0, 4)} `
                 }
             </div>
         }
-        <div className={styles.message} >
+        {
+            isNewMessage && <div className={styles.newMessage} ref={myRef}>
+                Новые сообщения
+            </div>
+        }
+        <div className={styles.message} style={!message.is_read && message.sender_login !== loginTo ? { backgroundColor: 'rgb(214, 214, 214)' } : {}}>
             {
-                (message.firstname != messages[index + 1]?.firstname) &&
-                <img src={userLogo} className={styles.logo} />
+                repeatUserIcon && <img src={userLogo} className={styles.logo} />
             }
             <div className={styles.messageBlock}>
                 {
-                    (message.firstname != messages[index + 1]?.firstname) &&
-                    <div className={styles.username}>{message.firstname}</div>
+                    repeatUserIcon && <div className={styles.username}>{message.firstname}</div>
                 }
                 <li
                     className={styles.messageText}
-                    style={(message.firstname == messages[index + 1]?.firstname)
-                        ? { paddingLeft: '65px', paddingTop: 0 }
-                        : {}}>
+                    style={!repeatUserIcon ? { paddingLeft: '65px', paddingTop: 0 } : {}}>
                     {message.text}
                 </li>
             </div>
@@ -38,7 +50,7 @@ function Message({ message, messages, index }) {
                 }
             </div>
         </div>
-    </div>
+    </div >
 }
 
 export default Message;

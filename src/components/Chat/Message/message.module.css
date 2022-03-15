@@ -12,8 +12,10 @@
 
 .message {
     display: flex;
-    padding: 10px 0;
+    margin: 7px 0;
     position: relative;
+    border-radius: 4px;
+    padding-bottom: 3px;
 }
 
 .message:hover{
@@ -44,7 +46,7 @@
 }
 
 .time{
-    padding-top: 5px;
+    padding-top: 3px;
     min-width: 50px;
     color: rgb(89, 80, 168);
     font-size: 16px;
@@ -59,4 +61,13 @@
     font-size: 14px;
     min-height: fit-content;
     color: rgb(89, 80, 168);
+}
+
+.newMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    background-color: rgb(190, 190, 190);
+    border-radius: 4px;
 }

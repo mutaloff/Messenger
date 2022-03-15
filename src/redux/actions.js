@@ -1,6 +1,6 @@
-import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, SETPOPUPOPTION, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT, ADDTOFOLDERS, SETREADYPOINT, SETREADYHANDLERDATA } from "./types";
 import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, SETSUBSCRIPTION } from "./types";
-
+import { GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME, SETMESSAGEFETCHING } from "./types";
 
 export function sendMessage(data) {
     return {
@@ -89,5 +89,53 @@ export function setUserSubscription(subscription) {
     return {
         type: SETSUBSCRIPTION,
         payload: subscription
+    }
+}
+
+export function setMessageFetching(isFetching) {
+    return {
+        type: SETMESSAGEFETCHING,
+        payload: isFetching
+    }
+}
+
+export function setMessagesRead() {
+    return {
+        type: SETMESSAGESREAD
+    }
+}
+
+export function setPopupOption(option) {
+    return {
+        type: SETPOPUPOPTION,
+        payload: option
+    }
+}
+
+export function resetMessageCount(login) {
+    return {
+        type: RESETMESSAGECOUNT,
+        payload: login
+    }
+}
+
+export function setReceiverMessageCount(count) {
+    return {
+        type: SETRECEIVERMESSAGECOUNT,
+        payload: count
+    }
+}
+
+export function setReadyPoint(isReady) {
+    return {
+        type: SETREADYPOINT,
+        payload: isReady
+    }
+}
+
+export function setReadyData(data) {
+    return {
+        type: SETREADYHANDLERDATA,
+        payload: data
     }
 }

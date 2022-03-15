@@ -7,31 +7,24 @@ import { Signin } from "./components/Authorization/signin";
 import { useDispatch, useSelector } from "react-redux";
 import { Settings } from "./components/Settings/settings";
 import styles from './styles/app.module.css'
-import { checkAuth, getUser } from "./redux/authReducer";
+import { checkAuth } from "./redux/authReducer";
 import { Absence } from "./components/Chat/Absence/absence";
 import Profile from "./components/Profile/profile";
 import socket from "./socket";
 import { path } from "./config"
-import { sendMessage, updateUnread } from "./redux/actions";
+import messageSound from './../src/assets/sounds/message-sound.mp3'
+import { sendMessage } from "./redux/actions";
 import { getContacts } from "./redux/contactReducer";
-import messageSound from './assets/sounds/say-pig.mp3'
-
 
 function App() {
     let { isAuth, login } = useSelector(state => state.authReducer)
 
-    let dispatch = useDispatch()
     const soundEffect = new Audio();
     soundEffect.src = messageSound;
 
-    useEffect(() => {
-        if (localStorage.getItem('jwt')) {
-            dispatch(checkAuth())
-        }
-        if (!isAuth) {
-            localStorage.removeItem('jwt')
-        }
-    }, [])
+    const receiver = useSelector(state => state.messageReducer.receiver)
+
+    let dispatch = useDispatch()
 
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
@@ -42,9 +35,21 @@ function App() {
                 soundEffect.play();
                 dispatch(sendMessage(data))
                 setTimeout(() => dispatch(getContacts(login)), 10)
+                if (data.sender_login === receiver?.login) {
+                    socket.emit('readMessage', login, receiver?.login)
+                }
             })
         }
     })
+    useEffect(() => {
+        if (localStorage.getItem('jwt')) {
+            dispatch(checkAuth())
+        }
+        if (!isAuth) {
+            localStorage.removeItem('jwt')
+        }
+    }, [])
+
     return <div>
         {
             isAuth && login

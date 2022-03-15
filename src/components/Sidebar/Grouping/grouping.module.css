@@ -1,0 +1,104 @@
+.grouping {
+    padding: 12px, 0px;
+}
+.folder {
+    cursor: pointer;
+    height: 32px;
+    display: flex;
+    padding:  0px 12px;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.folderElements {
+    flex-direction: column;
+    cursor: pointer;
+    margin: 0px 12px;
+    border-radius: 5px;
+}
+
+.folderArrow{
+    display: block;
+    margin-left: 10px;
+    min-width: 20px;
+    color: rgb(135, 195, 241);
+}
+
+.folderName {
+    width: 100%;
+    padding-left: 22px;
+    font-size: 24px;
+    color: rgb(164, 211, 247);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.folderIcon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    margin-left: 4px;
+}
+
+.sendFolder {
+    width: 28px;
+    height: 30px;
+    min-width: 28px;
+    min-height: 30px;
+    margin-left: 10px;
+}
+
+.sendFolder:hover {
+    opacity: 70%;
+}
+
+.folderContact {
+    display: flex;
+}
+
+.messageBox {
+    width: 500px;
+    display: flex;
+    margin-right: 5px;
+    background-color: rgb(94, 182, 249);
+    border-radius: 4px;
+}
+
+.messageInput{
+    width: 100%;
+    background-color: rgb(94, 182, 249);
+    border: none;
+    outline: none;
+    height: 26px;
+    color:whitesmoke;
+    box-sizing: border-box;
+}
+
+.messageInput::placeholder{
+    color:rgb(115, 88, 165)
+}
+
+.messagesСount {
+    display: block;
+    font-size: 18px;
+    background-color: rgb(94, 182, 249);
+    height: 22px;
+    min-width: max-content;
+    padding: 0 7px;
+    margin-left: 10px;
+    border-radius: 11px;
+    color: whitesmoke;
+}
+
+.sendMessage {
+    filter: saturate(200);
+    padding-right: 5px;
+    width: 28px;
+    height: 28px;
+}
+
+.sendMessage:hover {
+    opacity: 70%;
+}

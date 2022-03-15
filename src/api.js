@@ -71,6 +71,19 @@ export const UserAPI = {
     },
     setLeavingTime(login) {
         return instance.post(BASE_URL + 'set-leaving-time', { login })
+    },
+    setPrivate(login, isPrivate) {
+        return instance.post(BASE_URL + 'set-private', { login, isPrivate })
+    },
+    getPrivate(login) {
+        return instance.post(BASE_URL + 'get-private', { login }).then(response => {
+            return response.data
+        })
+    },
+    createFolder(login, folder) {
+        return instance.post(BASE_URL + 'create-folder', { login, folder }).then(response => {
+            return response.data
+        })
     }
 }
 
@@ -102,13 +115,8 @@ export const MessageAPI = {
             return response.data
         })
     },
-    getMessages(senderLogin, receiverLogin, page) {
-        return instance.post('/get-messages', { senderLogin, receiverLogin, page }).then(response => {
-            return response.data
-        })
-    },
-    getUnreadMessagesCount(senderLogin, receiverLogin) {
-        return instance.post('/get-unread', { senderLogin, receiverLogin }).then(response => {
+    getMessages(senderLogin, receiverLogin, page, limit) {
+        return instance.post('/get-messages', { senderLogin, receiverLogin, page, limit }).then(response => {
             return response.data
         })
     },

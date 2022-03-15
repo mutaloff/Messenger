@@ -13,25 +13,29 @@ import { path } from '../../../config';
 import { setPage, updateLeavingTime } from '../../../redux/actions';
 import SidebarPopup from '../../Common/Popup/sidebarPopup';
 import { useWindowSize } from '../../../customHooks/useWindowSize';
-
+import Loader from '../../Common/Loader/loader';
+import settingLoaderIcon from './../../../assets/imgs/setting-loader.gif'
+import Grouping from '../Grouping/grouping';
+import { sortContacts } from '../../../utils/sortContacts';
+import ContactSelect from '../ContactSelect/contactSelect';
 
 function ContactList(props) {
+
     const dispatch = useDispatch();
 
     const [onlineContacts, setOnlineContacts] = useState([])
+
     const [displayPopup, setDisplayPopup] = useState(false)
 
     const contacts = useSelector(state => state.contactReducer.contacts);
 
-    const userLogin = useSelector(state => {
-        return state.authReducer.login
-    })
+    const userLogin = useSelector(state => state.authReducer.login)
 
-    const location = useSelector(state => {
-        return state.appReducer.page
-    })
+    const location = useSelector(state => state.appReducer.page)
 
     const page = useSelector(state => state.appReducer.page)
+
+    const popupOption = useSelector(state => state.appReducer.popupOption)
 
     useEffect(() => {
         dispatch(getContacts(userLogin))
@@ -51,44 +55,83 @@ function ContactList(props) {
 
     const [width, height] = useWindowSize()
 
-    return <div className={styles.contactList}>
-        <SearchBar
-            navPanelIsVisible={props.navPanelIsVisible}
-            userLogin={userLogin}
-            location={location}
-            popupDisplayHandler={popupDisplayHandler}
-        />
-
+    return <div>
         {
-            page === 'users/' &&
-            <SidebarPopup
-                content={[{ name: 'Удалить контакт' }]}
-                displayPopup={displayPopup}
-            />
-        }
-
-        <div className={styles.contacts} style={{ height: `${height - 95}px` }}>
-            {
-                !props.isDragging
-                    ? contacts.length
-                        ? contacts.map((contact, i) => <Contact
-                            key={i}
-                            index={i}
-                            contact={contact}
-                            onlineContacts={onlineContacts}
-                            link={location + contact.login}
-                            location={location}
-                            width={props.width}
-                            navPanelIsVisible={props.navPanelIsVisible} />)
-                        : props.navPanelIsVisible &&
-                        <div className={styles.noContacts}>
-                            <p>Контактов нет</p>
-                        </div>
-                    : <div className={styles.noContacts}>
-                        <p style={{ fontSize: '42px' }}>⇆</p>
+            page === 'settings/'
+                ? <div style={{ height: `${height - 51}px` }}>
+                    <Loader
+                        source={settingLoaderIcon}
+                        size={props.navPanelIsVisible ? 200 : 40}
+                    />
+                </div>
+                : <div>
+                    <SearchBar
+                        navPanelIsVisible={props.navPanelIsVisible}
+                        userLogin={userLogin}
+                        location={location}
+                        popupDisplayHandler={popupDisplayHandler}
+                    />
+                    <div className={styles.contacts} style={{ height: `${height - 95}px` }}>
+                        {
+                            page === 'users/' &&
+                            <SidebarPopup
+                                popupDisplayHandler={popupDisplayHandler}
+                                content={[{ name: 'Удалить контакт', option: 'deleteContact' }]}
+                                displayPopup={displayPopup}
+                            />
+                        }
+                        {
+                            page === 'messages/' &&
+                            <SidebarPopup
+                                popupDisplayHandler={popupDisplayHandler}
+                                content={[{ name: 'Создать папку', option: 'createFolder' }]}
+                                displayPopup={displayPopup}
+                            />
+                        }
+                        {
+                            !props.isDragging
+                                ? contacts.length
+                                    ? popupOption == 'createFolder'
+                                        ? <ContactSelect
+                                            contacts={contacts}
+                                            onlineContacts={onlineContacts}
+                                            location={location}
+                                            width={props.width}
+                                            navPanelIsVisible={props.navPanelIsVisible}
+                                        />
+                                        : sortContacts(contacts, page, props.navPanelIsVisible).map((contact, i) => (
+                                            Object.keys(contact).length == 1
+                                                ? <Grouping
+                                                    userLogin={userLogin}
+                                                    contacts={contact}
+                                                    key={i}
+                                                    onlineContacts={onlineContacts}
+                                                    location={location}
+                                                    width={props.width}
+                                                    navPanelIsVisible={props.navPanelIsVisible}
+                                                />
+                                                : <Contact
+                                                    key={i}
+                                                    index={i}
+                                                    contact={contact}
+                                                    onlineContacts={onlineContacts}
+                                                    link={location + contact.login}
+                                                    location={location}
+                                                    width={props.width}
+                                                    navPanelIsVisible={props.navPanelIsVisible}
+                                                />
+                                        ))
+                                    : props.navPanelIsVisible &&
+                                    <div className={styles.noContacts}>
+                                        <p>Контактов нет</p>
+                                    </div>
+                                : <div className={styles.noContacts}>
+                                    <p style={{ fontSize: '42px' }}>⇆</p>
+                                </div>
+                        }
                     </div>
-            }
-        </div>
+                </div>
+        }
         {
             props.navPanelIsVisible &&
             <div className={styles.navPanel}>
@@ -118,7 +161,7 @@ function ContactList(props) {
                 </Link>
             </div>
         }
-    </div>
+    </div >
 }
 
 

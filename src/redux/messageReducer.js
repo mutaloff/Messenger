@@ -1,14 +1,16 @@
-import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETMESSAGESCOUNT } from "./types"
+import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETMESSAGESCOUNT, SETMESSAGEFETCHING, SETMESSAGESREAD, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT } from "./types"
 import { MessageAPI, UserAPI } from "../api"
-import { getUserMessages, setCurrentReceiver, setMessagesCount } from "./actions"
+import { getUserMessages, setCurrentReceiver, setMessageFetching, setMessagesCount } from "./actions"
 import { getContacts } from "./contactReducer"
 
 const initialState = {
     messages: [],
     senderFirstname: null,
     receiver: null,
+    receiverMessageCount: 0,
     totalCount: 0,
-    unreadMessages: []
+    unreadMessages: [],
+    isMessagesFetching: false
 }
 
 export const messageReducer = (state = initialState, action) => {
@@ -33,22 +35,44 @@ export const messageReducer = (state = initialState, action) => {
                 ...state,
                 totalCount: action.payload
             }
+        case SETMESSAGESREAD:
+            return {
+                ...state,
+                messages: setAllMessagesRead(state.messages)
+            }
+        case SETMESSAGEFETCHING:
+            return {
+                ...state,
+                isMessagesFetching: action.payload
+            }
+        case SETRECEIVERMESSAGECOUNT:
+            return {
+                ...state,
+                receiverMessageCount: action.payload
+            }
         default:
             return state
     }
 }
 
-export const getMessages = (sender, receiver, page, toAdd) => {
+export const getMessages = (sender, receiver, page, toAdd, limit) => {
     return (dispatch) => {
-        MessageAPI.getMessages(sender, receiver, page)
+        MessageAPI.getMessages(sender, receiver, page, limit)
             .then(data => {
                 dispatch(setMessagesCount(data.totalCount))
                 dispatch(getUserMessages(data.messages, toAdd))
             })
             .then(data => {
-                dispatch(setReadMessages(sender, receiver))
+                dispatch(setMessageFetching(false))
             })
     }
+}
+
+export const setAllMessagesRead = (messages) => {
+    return messages.map(message => {
+        message.is_read = 1
+        return message
+    })
 }
 
 export const setMessage = (sender, receiver, text) => {
@@ -73,4 +97,3 @@ export const setReceiver = (receiverlogin) => {
         })
     }
 }
-

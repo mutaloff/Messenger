@@ -1,11 +1,5 @@
 @import url('../../../assets/fonts/Exo2/exo2.css');
 
-.contactList {
-    display: table;
-    width: inherit;
-    position: relative;
-}
-
 .contacts {
     display: flex;
     flex-direction: column;
@@ -13,6 +7,7 @@
     overflow-y: scroll;
     scrollbar-color: rgba(73, 73, 73, 0.384) transparent;
     scrollbar-width: thin;
+    position: relative;
 }
 
 .navPanel {

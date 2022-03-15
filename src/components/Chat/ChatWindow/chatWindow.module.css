@@ -1,13 +1,13 @@
 @import url('../../../assets/fonts/Exo2/exo2.css');
 
 .window{
-    padding: 20px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
     height: inherit;
     scrollbar-color: rgba(73, 73, 73, 0.384) transparent;
     scrollbar-width: thin;
+    padding: 0 20px;
 }
 
 .scrollbar {

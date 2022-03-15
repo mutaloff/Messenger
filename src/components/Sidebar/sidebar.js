@@ -15,9 +15,10 @@ function Sidebar(props) {
         width: sidebarWidth,
         navPanelIsVisible: true
     })
-    const login = useSelector(state => {
-        return state.messageReducer.receiver
-    })
+
+    const location = useSelector(state => state.appReducer.page)
+
+    const receiver = useSelector(state => state.messageReducer.receiver)
 
     const dragHandler = (e) => {
         if (e.pageX > 200) {
@@ -37,9 +38,21 @@ function Sidebar(props) {
     }
     useEffect(() => {
         setState(prevState => ({
-            ...prevState, navPanelIsVisible: state.width < 200 ? false : true
+            ...prevState, navPanelIsVisible: state.width < 250 ? false : true
         }))
     }, [])
+
+    useEffect(() => {
+        if (location === 'settings/' && width < 700) {
+            setState(prevState => ({
+                ...prevState, width: 0, navPanelIsVisible: false
+            }))
+        } else {
+            setState(prevState => ({
+                ...prevState, width: sidebarWidth, navPanelIsVisible: sidebarWidth < 250 ? false : true
+            }))
+        }
+    }, [width, location])
 
 
     const dragStartHandler = (e) => {
@@ -66,9 +79,10 @@ function Sidebar(props) {
             ? { minWidth: state.width + 'px', width: state.width + 'px' }
             : width > 700
                 ? { minWidth: 0.7 * window.innerWidth + 'px', width: 0.7 * window.innerWidth + 'px' }
-                : login
+                : receiver
                     ? { display: 'none' }
                     : { width: '100%', minWidth: '100%' }}>
+
         <div className={styles.contactList}>
             {
                 <ContactList
@@ -88,7 +102,7 @@ function Sidebar(props) {
             onDragEnd={dragEndHandler}>
             <DragPanel />
         </div>
-    </div>
+    </div >
 }
 
 
