@@ -75,15 +75,16 @@ export const UserAPI = {
     setPrivate(login, isPrivate) {
         return instance.post(BASE_URL + 'set-private', { login, isPrivate })
     },
-    getPrivate(login) {
-        return instance.post(BASE_URL + 'get-private', { login }).then(response => {
-            return response.data
-        })
-    },
     createFolder(login, folder) {
         return instance.post(BASE_URL + 'create-folder', { login, folder }).then(response => {
             return response.data
         })
+    },
+    setAvatar(login, avatar) {
+        return instance.post(BASE_URL + 'set-avatar', { login, avatar })
+    },
+    setStatus(login, status) {
+        return instance.post(BASE_URL + 'set-status', { login, status })
     }
 }
 
@@ -122,5 +123,8 @@ export const MessageAPI = {
     },
     setReadMessages(senderLogin, receiverLogin) {
         return instance.post('/set-read', { senderLogin, receiverLogin })
+    },
+    setImportance(ownerLogin, contactLogin, importance) {
+        return instance.post('/set-importance', { ownerLogin, contactLogin, importance })
     }
 }

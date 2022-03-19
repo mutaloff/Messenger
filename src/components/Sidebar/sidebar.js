@@ -21,13 +21,13 @@ function Sidebar(props) {
     const receiver = useSelector(state => state.messageReducer.receiver)
 
     const dragHandler = (e) => {
-        if (e.pageX > 200) {
+        if (e.pageX > 250) {
             setState(prevState => ({
                 ...prevState, width: e.pageX, navPanelIsVisible: true
             }))
         } else if (e.pageX) {
             setState(prevState => ({
-                ...prevState, width: 63, navPanelIsVisible: false
+                ...prevState, width: 73, navPanelIsVisible: false
             }))
         }
         if (state.width > 0.7 * window.innerWidth) {
@@ -43,10 +43,16 @@ function Sidebar(props) {
     }, [])
 
     useEffect(() => {
-        if (location === 'settings/' && width < 700) {
-            setState(prevState => ({
-                ...prevState, width: 0, navPanelIsVisible: false
-            }))
+        if (width < 700) {
+            if (location === 'settings/') {
+                setState(prevState => ({
+                    ...prevState, width: 0, navPanelIsVisible: false
+                }))
+            } else {
+                setState(prevState => ({
+                    ...prevState, width: width, navPanelIsVisible: true
+                }))
+            }
         } else {
             setState(prevState => ({
                 ...prevState, width: sidebarWidth, navPanelIsVisible: sidebarWidth < 250 ? false : true

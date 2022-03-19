@@ -9,6 +9,7 @@ import { setPopupOption } from "../../../redux/actions";
 import { UserAPI } from "../../../api";
 
 function SearchBar(props) {
+
     const [searchValue, setSearchValue] = useState('');
 
     const dispatch = useDispatch()
@@ -53,7 +54,6 @@ function SearchBar(props) {
 
     return <div className={styles.searchBar}>
         {
-            props.navPanelIsVisible &&
             <>
                 <img src={searchIcon} className={styles.searchImg} />
                 <input
@@ -63,7 +63,10 @@ function SearchBar(props) {
                     onChange={changeHandler}
                 />
                 {
-                    (contactDelete || createFolder) && <div className={styles.cancel} onClick={() => cancelHandler()}>
+                    (contactDelete || createFolder) &&
+                    <div
+                        className={styles.cancel}
+                        onClick={() => cancelHandler()}>
                         {readyPoint ? 'Готово' : 'Отмена'}
                     </div>
                 }
@@ -77,7 +80,7 @@ function SearchBar(props) {
                 onClick={() => props.popupDisplayHandler()}>
             </img>
         }
-    </div>
+    </div >
 }
 
 export default SearchBar;

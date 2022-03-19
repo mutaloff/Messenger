@@ -1,6 +1,7 @@
-import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, SETPOPUPOPTION, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT, ADDTOFOLDERS, SETREADYPOINT, SETREADYHANDLERDATA } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, RESETUSERAVATAR } from "./types";
 import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, SETSUBSCRIPTION } from "./types";
-import { GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME, SETMESSAGEFETCHING } from "./types";
+import { GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME, SETMESSAGEFETCHING, RESETUSERSTATUS } from "./types";
+import { SETPOPUPOPTION, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT, SETREADYPOINT, SETREADYHANDLERDATA, SETIMPORTANCE } from "./types";
 
 export function sendMessage(data) {
     return {
@@ -137,5 +138,26 @@ export function setReadyData(data) {
     return {
         type: SETREADYHANDLERDATA,
         payload: data
+    }
+}
+
+export function resetImportance(login, importance) {
+    return {
+        type: SETIMPORTANCE,
+        payload: { login, importance }
+    }
+}
+
+export function resetAvatar(avatar) {
+    return {
+        type: RESETUSERAVATAR,
+        payload: avatar
+    }
+}
+
+export function resetStatus(status) {
+    return {
+        type: RESETUSERSTATUS,
+        payload: status
     }
 }

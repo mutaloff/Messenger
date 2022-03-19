@@ -8,10 +8,15 @@ import { getMessages, setReadMessages } from "../../../redux/messageReducer";
 import { getTiming } from "../../../utils/timing";
 import { setReceiverMessageCount } from "../../../redux/actions";
 import Subscription from "../Subscription/subscription";
+import { dateConvert } from "../../../utils/dateConvert";
+import { v4 } from 'uuid'
+import { checkSource } from "../../../utils/checkSourse";
 
 function Contact(props) {
-
     const dispatch = useDispatch()
+
+    const msgPage = 'messages/';
+    const userPage = 'users/'
 
     const loginTo = useSelector(state => state.messageReducer.receiver?.login)
 
@@ -23,15 +28,18 @@ function Contact(props) {
 
     const [subscribeState, setSubscribeState] = useState('')
 
+    const { page, popupOption } = useSelector(state => state.appReducer)
+
     const clickHandler = () => {
         dispatch(setReceiver(props.contact.login))
-        dispatch(setReceiverMessageCount(props.contact.messages_count))
-        props.contact.login != loginTo &&
+        page === msgPage && dispatch(setReceiverMessageCount(props.contact.messages_count))
+        if (props.contact.login != loginTo) {
             dispatch(getMessages(props.contact.login, loginFrom, 0, false, messagesCount > 50 ? messagesCount + 20 : 50))
+        }
     }
 
     useEffect(() => {
-        if (loginTo === props.contact.login) {
+        if (loginTo === props.contact.login && page === msgPage) {
             dispatch(setReadMessages(loginTo, loginFrom))
         }
     }, [messages])
@@ -41,21 +49,35 @@ function Contact(props) {
             ? setMessagesCount(props.contact.messages_count)
             : setMessagesCount(0)
     })
+    const isAvatarExists = props.contact.avatar && checkSource(props.contact.avatar)
 
     return <div style={!props.navPanelIsVisible ? { width: 63 + 'px' } : {}} className={styles.contactBar}>
-        <Link className={styles.contact} onClick={clickHandler} to={props.link} style={{ width: props.width - 20 }}>
-            <img src={userLogo} className={styles.icon} />
+        <Link
+            className={styles.contact}
+            onClick={clickHandler}
+            to={props.link}
+            style={props.navPanelIsVisible ? { width: props.width - 25 } : { width: props.width }}>
+            <img
+                src={isAvatarExists ? props.contact.avatar : userLogo}
+                style={{
+                    border: isAvatarExists ? '1px solid rgb(94, 182, 249)' : '',
+                    width: isAvatarExists ? '46px' : '50px',
+                    height: isAvatarExists ? '46px' : '50px',
+                    minWidth: isAvatarExists ? '46px' : '50px',
+                }}
+                className={styles.icon}
+            />
             <div className={styles.user}>
                 {`${props.contact.firstname} ${props.contact.lastname[0]}.`}
                 {
                     (props.onlineContacts.some(onlineContact => props.contact.login === onlineContact.login))
-                        ? props.location === 'users/' && <div
-                            key={`${props.index}dafrfsf`}
+                        ? page === userPage && <div
+                            key={v4()}
                             className={styles.online}>
                             В сети
                         </div>
-                        : props.location === 'users/' && <div
-                            key={`${props.index}kkmndipawndiaw`}
+                        : page === userPage && <div
+                            key={v4()}
                             className={styles.online}>
                             {
                                 props.contact.last_entrance
@@ -65,15 +87,15 @@ function Contact(props) {
                         </div>
                 }
                 {
-                    props.onlineContacts.map((onlineContact, i) => (
-                        props.location === 'messages/' && props.contact.login === onlineContact.login
+                    props.onlineContacts.map(onlineContact => (
+                        page === msgPage && props.contact.login === onlineContact.login
                             ? <div
-                                key={`${i}_onln`}
+                                key={v4()}
                                 className={styles.onlineDot}
                             />
                             : <div
                                 style={{ width: props.width - 120 }}
-                                key={`${i}_wfefefgsefa`}
+                                key={v4()}
                                 className={styles.online}>
                                 {props.contact.last_message}
                             </div>
@@ -81,13 +103,20 @@ function Contact(props) {
                 }
             </div>
             {
-                props.location === 'messages/' && props.navPanelIsVisible && <div
+                page === msgPage && props.navPanelIsVisible && Boolean(props.contact.importance) && <div
                     className={styles.unreadCount}
-                    style={!messagesCount ? { display: 'none' } : { display: 'block' }}>
+                    style={{
+                        display: messagesCount ? 'flex' : 'none',
+                        backgroundColor: props.contact.importance == 4 ? 'red' : 'rgb(94, 182, 249)'
+                    }}>
                     {messagesCount}
                 </div>
             }
-        </Link>
+            {
+                page === msgPage && !popupOption && props.contact.last_message &&
+                <div className={styles.date}>{dateConvert(props.contact.sequence)}</div>
+            }
+        </Link >
         {
             props.navPanelIsVisible && <Subscription
                 contact={props.contact}
@@ -96,7 +125,7 @@ function Contact(props) {
                 {subscribeState}
             </Subscription>
         }
-    </div>
+    </div >
 }
 
 export default Contact;

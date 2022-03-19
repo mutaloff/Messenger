@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./textInput.module.css";
 import { sendMessage } from "../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,7 @@ import sendLogo from '../../../assets/imgs/send_icon.png';
 import socket from "../../../socket";
 import { setMessage } from "../../../redux/messageReducer";
 import { UserAPI } from "../../../api";
-import { keyPress } from "../../../utils/keyPress";
+import { keyPress } from "../../../utils/keyPress"
 
 function TextInput(props) {
 
@@ -16,6 +16,8 @@ function TextInput(props) {
 
     const dispatch = useDispatch();
 
+    const inputRef = useRef(null)
+
     const receiver_login = useSelector(state => state.messageReducer.receiver?.login)
 
     const firstname = useSelector(state => state.authReducer.userData?.firstname)
@@ -24,12 +26,13 @@ function TextInput(props) {
 
     const subscription = useSelector(state => state.contactReducer.subscription)
 
-    const handleInput = (e) => {
+    const changeHandler = (e) => {
         setSendIcon(true);
         setText(e.target.value);
     }
 
     const handleClick = (e) => {
+        inputRef.current.focus()
         if (!props.hasMessages && subscription === false) {
             UserAPI.subscribe(sender_login, receiver_login)
             UserAPI.subscribe(receiver_login, sender_login)
@@ -39,9 +42,11 @@ function TextInput(props) {
         text.length && setText('');
         text.length && dispatch(sendMessage({ sender_login, receiver_login, text, firstname }));
     }
+
     return <div className={styles.sender}>
         <input
-            onChange={handleInput}
+            ref={inputRef}
+            onChange={changeHandler}
             onKeyPress={(e) => keyPress(e, handleClick)}
             className={styles.input}
             value={text}

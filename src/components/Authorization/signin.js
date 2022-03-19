@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { authUser } from "../../redux/authReducer";
 import { Link } from "react-router-dom";
 import { path } from "../../config";
+import { setPage } from "../../redux/actions";
 
 export function Signin(props) {
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export function Signin(props) {
 
     const entryHandler = () => {
         dispatch(authUser(login, password, isRemember));
+        dispatch(setPage('messages/'))
     }
 
     return <div className={styles.signup}>

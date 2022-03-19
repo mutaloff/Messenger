@@ -55,17 +55,19 @@ const Grouping = ({ contacts, onlineContacts, location, width, navPanelIsVisible
     useEffect(() => {
         setMessagesCount(0)
         contacts[folder].map(contact => {
-            if (receiver?.login !== contact.login) {
+            if (receiver?.login !== contact.login && contact.importance > 0) {
                 setMessagesCount(prevState => prevState + contact.messages_count)
             }
         })
     }, [contacts])
 
-    return <div className={styles.grouping}>
+    return <div className={styles.grouping} style={{
+        minHeight: displayFolder ? `${contacts[folder].length * 60 + 48}px` : '42px'
+    }}>
         <div className={styles.folder}>
             <img src={folderIcon} className={styles.folderIcon} onClick={revealHandler} />
             <div className={styles.folderName} onClick={revealHandler}>{folder}</div>
-            <div className={styles.messageBox} style={displayInput ? { display: 'flex' } : { display: 'none' }}>
+            <div className={styles.messageBox} style={{ display: displayInput ? 'flex' : 'none' }}>
                 <input
                     value={text}
                     onKeyPress={(e) => keyPress(e, sendHandler)}
@@ -77,7 +79,10 @@ const Grouping = ({ contacts, onlineContacts, location, width, navPanelIsVisible
             </div>
             <img src={sendFolderIcon} className={styles.sendFolder} onClick={showInputHandler} />
             <div
-                style={messagesCount ? { display: 'flex' } : { display: 'none' }}
+                style={{
+                    display: messagesCount ? 'flex' : 'none',
+                    backgroundColor: contacts[folder].some(contact => contact.importance == 4 && contact.messages_count > 0) ? 'red' : 'rgb(94, 182, 249)'
+                }}
                 className={styles.messagesСount}>
                 {messagesCount}
             </div>
@@ -92,7 +97,6 @@ const Grouping = ({ contacts, onlineContacts, location, width, navPanelIsVisible
                             contact={contact}
                             onlineContacts={onlineContacts}
                             link={location + contact.login}
-                            location={location}
                             width={width}
                             navPanelIsVisible={navPanelIsVisible}
                         />

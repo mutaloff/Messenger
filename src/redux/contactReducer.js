@@ -1,6 +1,6 @@
 import { UserAPI } from "../api"
 import { createContacts, searchContact } from "./actions"
-import { CREATECONTACT, SEARCHCONTACT, SETSUBSCRIPTION, UPDATELEAVINGTIME, RESETMESSAGECOUNT, ADDTOFOLDERS } from "./types"
+import { CREATECONTACT, SEARCHCONTACT, SETSUBSCRIPTION, UPDATELEAVINGTIME, RESETMESSAGECOUNT, SETIMPORTANCE } from "./types"
 
 
 const initialState = {
@@ -35,6 +35,11 @@ export const contactReducer = (state = initialState, action) => {
                 ...state,
                 contacts: setMessageCountZero(state.contacts, action.payload)
             }
+        case SETIMPORTANCE:
+            return {
+                ...state,
+                contacts: setContactImportance(state.contacts, action.payload.login, action.payload.importance)
+            }
         default:
             return state
     }
@@ -44,6 +49,15 @@ export const changeLeavingTime = (contacts, login) => {
     return contacts.map(contact => {
         if (contact.login === login) {
             contact.last_entrance = Date.now()
+        }
+        return contact
+    })
+}
+
+export const setContactImportance = (contacts, login, importance) => {
+    return contacts.map(contact => {
+        if (contact.login === login) {
+            contact.importance = importance
         }
         return contact
     })

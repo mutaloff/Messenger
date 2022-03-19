@@ -5,9 +5,12 @@
     flex-direction: column;
     flex: auto;
     padding-top: 25px;
+    align-items: center;
 }
 
 .button {
+    display: block;
+    width: fit-content;
     margin-top: 50px;
     background-color: transparent;
     color: red;

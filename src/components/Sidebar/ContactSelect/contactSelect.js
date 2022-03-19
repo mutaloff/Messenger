@@ -9,10 +9,30 @@ import folderIcon from "./../../../assets/imgs/folder.png"
 function ContactSelect({ contacts, onlineContacts, location, width, navPanelIsVisible }) {
 
     const dispatch = useDispatch()
+
     const [checkedContacts, setCheckedContacts] = useState([])
+
     const [displayPrompt, setDisplayPrompt] = useState(false)
+
     const [folderName, setFolderName] = useState('')
+
     const [data, setData] = useState([])
+
+    const [folders, setFolders] = useState([])
+
+    const focusHandler = (e) => {
+        let folderList = []
+        contacts.map(contact => {
+            if (!folderList.includes(contact.contact_group) && contact.contact_group) {
+                folderList.push(contact.contact_group)
+            }
+        })
+        setFolders(folderList)
+    }
+
+    const onBlurHandler = (e) => {
+        setTimeout(() => setFolders([]), 500)
+    }
 
     const checkHandler = (el, isChecked) => {
         !isChecked
@@ -37,6 +57,8 @@ function ContactSelect({ contacts, onlineContacts, location, width, navPanelIsVi
         <div className={styles.folderNameWrapper}>
             <img src={folderIcon} className={styles.folderImg} />
             <input
+                onFocus={focusHandler}
+                onBlur={onBlurHandler}
                 value={folderName}
                 onChange={changeHandler}
                 className={styles.input}
@@ -53,6 +75,16 @@ function ContactSelect({ contacts, onlineContacts, location, width, navPanelIsVi
             Если название папки отсутствует, то контакт попадает в общий список
         </div>
         {
+            folders.map((folder, i) => (
+                <div
+                    onClick={() => setFolderName(folder)}
+                    key={i}
+                    className={styles.foldersList}>
+                    {folder}
+                </div>
+            ))
+        }
+        {
             contacts.map((contact, i) => (
                 <div className={styles.selectedContact} key={i}>
                     <Contact
@@ -60,11 +92,10 @@ function ContactSelect({ contacts, onlineContacts, location, width, navPanelIsVi
                         contact={contact}
                         onlineContacts={onlineContacts}
                         link={location + contact.login}
-                        location={location}
                         width={width}
                         navPanelIsVisible={navPanelIsVisible}
                     />
-                    <div key={`${i}dsefsefq3`} className={styles.roundCheckbox}>
+                    <div className={styles.roundCheckbox}>
                         <RountCheckbox checkHandler={checkHandler} element={contact} />
                     </div>
                 </div>

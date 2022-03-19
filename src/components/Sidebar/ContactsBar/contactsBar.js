@@ -9,7 +9,6 @@ import SearchBar from '../SearchBar/searchBar';
 import { getContacts } from '../../../redux/contactReducer';
 import { Link } from 'react-router-dom';
 import socket from '../../../socket';
-import { path } from '../../../config';
 import { setPage, updateLeavingTime } from '../../../redux/actions';
 import SidebarPopup from '../../Common/Popup/sidebarPopup';
 import { useWindowSize } from '../../../customHooks/useWindowSize';
@@ -18,6 +17,7 @@ import settingLoaderIcon from './../../../assets/imgs/setting-loader.gif'
 import Grouping from '../Grouping/grouping';
 import { sortContacts } from '../../../utils/sortContacts';
 import ContactSelect from '../ContactSelect/contactSelect';
+
 
 function ContactList(props) {
 
@@ -65,12 +65,14 @@ function ContactList(props) {
                     />
                 </div>
                 : <div>
-                    <SearchBar
-                        navPanelIsVisible={props.navPanelIsVisible}
-                        userLogin={userLogin}
-                        location={location}
-                        popupDisplayHandler={popupDisplayHandler}
-                    />
+                    {
+                        props.navPanelIsVisible && <SearchBar
+                            userLogin={userLogin}
+                            location={location}
+                            popupDisplayHandler={popupDisplayHandler}
+                        />
+                    }
+
                     <div className={styles.contacts} style={{ height: `${height - 95}px` }}>
                         {
                             page === 'users/' &&
@@ -91,7 +93,7 @@ function ContactList(props) {
                         {
                             !props.isDragging
                                 ? contacts.length
-                                    ? popupOption == 'createFolder'
+                                    ? popupOption == 'createFolder' && page === 'messages/'
                                         ? <ContactSelect
                                             contacts={contacts}
                                             onlineContacts={onlineContacts}
@@ -116,7 +118,6 @@ function ContactList(props) {
                                                     contact={contact}
                                                     onlineContacts={onlineContacts}
                                                     link={location + contact.login}
-                                                    location={location}
                                                     width={props.width}
                                                     navPanelIsVisible={props.navPanelIsVisible}
                                                 />
@@ -135,7 +136,7 @@ function ContactList(props) {
         {
             props.navPanelIsVisible &&
             <div className={styles.navPanel}>
-                <Link to={path + 'users'}>
+                <Link to={'users'}>
                     <img
                         style={page === 'users/' ? { filter: 'contrast(180%)' } : {}}
                         src={userLogo}
@@ -143,7 +144,7 @@ function ContactList(props) {
                         onClick={() => pageHandler('users/')}
                     />
                 </Link>
-                <Link to={path + 'messages'}>
+                <Link to={'messages'}>
                     <img
                         style={page === 'messages/' ? { filter: 'contrast(180%)' } : {}}
                         src={messageLogo}
@@ -151,7 +152,7 @@ function ContactList(props) {
                         onClick={() => pageHandler('messages/')}
                     />
                 </Link>
-                <Link to={path + 'settings'}>
+                <Link to={'settings'}>
                     <img
                         style={page === 'settings/' ? { filter: 'contrast(180%)' } : {}}
                         src={settingsLogo}

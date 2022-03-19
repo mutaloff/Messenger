@@ -10,10 +10,9 @@
 .contact {
     display: flex;
     font-size: 22px;
-    padding-left: 10px;
     align-items: center;
     cursor: pointer;
-    padding: 8px 0 0 0;
+    padding: 8px 0px 0 12px;
     text-decoration: none;
     position: relative;
 }
@@ -23,9 +22,9 @@
 }
 
 .icon{
-    padding-left: 5px;
+    border-radius: 50%;
+    object-fit: cover;
     width: 50px;
-    min-width: 50px;
     height: 50px;
 }
 
@@ -43,12 +42,14 @@
 .contactBar{
     outline: none;
     flex: auto;
+    min-height: 60px;
     max-height: 60px;
 }
 
 .unreadCount {
     position: absolute;
     right: 0px;
+    bottom: 5px;
     font-size: 18px;
     background-color: rgb(94, 182, 249);
     height: 22px;
@@ -63,10 +64,10 @@
     background-color: rgb(14, 223, 14);
     position: absolute;
     border-radius: 50%;
-    height: 9px;
-    width: 9px;
-    left: 42px;
-    bottom: 6px;
+    height: 10px;
+    width: 10px;
+    left: 49px;
+    bottom: 5px;
     background: radial-gradient(circle closest-side, rgb(8, 236, 8) 3px, 
     rgb(94, 182, 249));
 }
@@ -79,4 +80,13 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.date {
+    height: 99%;
+    display: block;
+    min-width: fit-content;
+    font-size: 14px;
+    align-self: flex-start;
+    border-bottom: rgba(71, 5, 5, 0.356) solid 1px;
 }

@@ -7,6 +7,9 @@ import { useWindowSize } from "../../customHooks/useWindowSize";
 import { useState } from "react";
 import ToggleSwitch from "./toggleButton/toggleButton";
 import { UserAPI } from "../../api";
+import Avatar from "./inputSettings/avatar";
+import { getContacts } from "../../redux/contactReducer";
+import Status from "./inputSettings/status";
 
 export const Settings = (props) => {
 
@@ -20,11 +23,22 @@ export const Settings = (props) => {
 
     const [isPrivate, setIsPrivate] = useState(false);
 
+    const [avatar, setAvatar] = useState('');
+
+    const [status, setStatus] = useState('');
+
+    const userData = useSelector(state => state.authReducer.userData);
+
+    useEffect(() => () => dispatch(getContacts(login)), [])
+
     useEffect(() => {
-        UserAPI.getPrivate(login).then(data => {
-            setIsPrivate(data)
-        })
-    }, [])
+        if (userData?.is_private) {
+            setIsPrivate(userData?.is_private)
+        }
+        setAvatar(userData?.avatar)
+        setStatus(userData?.status)
+    }, [userData])
+
 
     const privateHandler = () => {
         setIsPrivate(!isPrivate)
@@ -35,6 +49,8 @@ export const Settings = (props) => {
         {
             width < 700 && <BackButton />
         }
+        <Avatar avatar={avatar} login={login} />
+        <Status status={status} login={login} />
         <div className={styles.isPrivate}>
             Приватный аккаунт
             <ToggleSwitch

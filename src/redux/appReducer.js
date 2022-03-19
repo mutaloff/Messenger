@@ -1,7 +1,7 @@
 import { SETPAGE, SETPOPUPOPTION, SETREADYHANDLERDATA, SETREADYPOINT } from "./types"
 
 const initialState = {
-    page: 'messages/',
+    page: window.location.href.substring((window.location.origin + window.location.pathname).length).split('/')[1] + '/',
     popupOption: null,
     readyPoint: false,
     readyData: null

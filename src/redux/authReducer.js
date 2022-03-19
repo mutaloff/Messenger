@@ -1,5 +1,5 @@
 import { authContact, logoutContact, checkContact, getUserInfo } from "./actions"
-import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT } from "./types"
+import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT, RESETUSERAVATAR, RESETUSERSTATUS } from "./types"
 import { AuthAPI, UserAPI } from "../api"
 
 
@@ -35,6 +35,16 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 userData: action.payload
             }
+        case RESETUSERAVATAR:
+            return {
+                ...state,
+                userData: setUserAvatar(state.userData, action.payload)
+            }
+        case RESETUSERSTATUS:
+            return {
+                ...state,
+                userData: setUserStatus(state.userData, action.payload)
+            }
         default:
             return state
     }
@@ -46,6 +56,7 @@ export const authUser = (login, password, isRemeber) => {
         AuthAPI.authUser(login, password, isRemeber).then(data => {
             data.connection && localStorage.setItem('jwt', data.accessToken);
             data.connection && dispatch(authContact(login))
+            data.connection && dispatch(getUser(login))
         });
     }
 }
@@ -64,6 +75,7 @@ export const checkAuth = () => {
         AuthAPI.checkAuth().then(data => {
             data.connection && localStorage.setItem('jwt', data.accessToken);
             data.connection && dispatch(checkContact(data.login))
+            data.connection && dispatch(getUser(data.login))
         });
     }
 }
@@ -72,4 +84,14 @@ export const getUser = (login) => {
     return (dispatch) => {
         UserAPI.getUser(login).then(data => dispatch(getUserInfo(data)))
     }
+}
+
+const setUserAvatar = (data, avatar) => {
+    data.avatar = avatar
+    return data
+}
+
+const setUserStatus = (data, status) => {
+    data.status = status
+    return data
 }

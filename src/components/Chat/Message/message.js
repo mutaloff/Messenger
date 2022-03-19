@@ -2,10 +2,13 @@ import styles from './message.module.css'
 import React, { useEffect, useState } from 'react'
 import userLogo from '../../../assets/imgs/user_icon.png';
 import { useRef } from 'react';
+import { checkSource } from '../../../utils/checkSourse';
 
-function Message({ message, messages, index, loginTo }) {
+function Message({ message, messages, index, loginTo, userData, receiverData }) {
 
     const myRef = useRef(null)
+
+    const [avatar, setAvatar] = useState(null)
 
     useEffect(() => myRef.current?.scrollIntoView(), [loginTo, myRef])
 
@@ -15,9 +18,22 @@ function Message({ message, messages, index, loginTo }) {
 
     const repeatUserIcon = message.firstname != messages[index + 1]?.firstname
 
+    const hasReceiver = (receiverData?.login == message.login || receiverData?.login == message.sender_login) && checkSource(receiverData?.avatar) && receiverData
+    const hasUser = (userData?.login == message.login || userData?.login == message.sender_login) && checkSource(userData?.avatar) && userData
+
+    useEffect(() => {
+        if (hasReceiver) {
+            setAvatar(receiverData.avatar)
+        } else if (hasUser) {
+            setAvatar(userData.avatar)
+        } else {
+            setAvatar(userLogo)
+        }
+    }, [receiverData])
+
     return <div className={styles.main}>
         {
-            showDate && <div className={styles.date} >
+            showDate && <div className={styles.date}>
                 {
                     `${messages[index]?.date?.substr(8, 2)}.${messages[index]?.date?.substr(5, 2)}.${messages[index]?.date?.substr(0, 4)} `
                 }
@@ -30,7 +46,7 @@ function Message({ message, messages, index, loginTo }) {
         }
         <div className={styles.message} style={!message.is_read && message.sender_login !== loginTo ? { backgroundColor: 'rgb(214, 214, 214)' } : {}}>
             {
-                repeatUserIcon && <img src={userLogo} className={styles.logo} />
+                repeatUserIcon && <img src={avatar} className={styles.logo} />
             }
             <div className={styles.messageBlock}>
                 {
