@@ -6,6 +6,7 @@
     display: flex;
     text-decoration: none;
     top: 6px;
+    align-items: center;
 }
 
 .backButton:hover {
@@ -16,10 +17,9 @@
     font-size: 18px;
     padding-left: 4px;
     font-family: 'Exo2';
-    padding-top: 2px;
+    padding-bottom: 5px;
 }
 
-h4 {
+.arrow {
     padding-left: 8px;
-    font-size: 26px;
 }

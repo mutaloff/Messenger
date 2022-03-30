@@ -1,6 +1,7 @@
 @import url('../../assets/fonts/Exo2/exo2.css');
 
 .settings {
+    font-family: 'Exo2';
     display: flex;
     flex-direction: column;
     flex: auto;
@@ -23,7 +24,6 @@
 }
 
 .isPrivate {
-    font-family: 'Exo2';
     align-items: center;
     display: flex;
     padding: 10px;

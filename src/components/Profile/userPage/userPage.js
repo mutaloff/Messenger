@@ -46,18 +46,22 @@ const UserPage = ({ contact }) => {
                 <div className={styles.info}>{contact.lastname}</div>
             </div>
         </div>
-        <div className={styles.label}>Важность контакта:</div>
-        <div className={styles.importance}>
-            <input
-                type="range" min="0" max="4"
-                value={importanceValue}
-                onChange={changeHandler}
-                className={styles.importanceValue}
-                onBlur={importanceHandler}
-                onTouchEnd={importanceHandler}
-            />
-            <div className={styles.importanceStatus}>{importanceConvert(importanceValue)}</div>
-        </div>
+        {
+            isFinite(contact.importance) && <>
+                <div className={styles.label}>Важность контакта:</div>
+                <div className={styles.importance}>
+                    <input
+                        type="range" min="0" max="4"
+                        value={importanceValue}
+                        onChange={changeHandler}
+                        className={styles.importanceValue}
+                        onBlur={importanceHandler}
+                        onTouchEnd={importanceHandler}
+                    />
+                    <div className={styles.importanceStatus}>{importanceConvert(importanceValue)}</div>
+                </div>
+            </>
+        }
     </div>
 }
 

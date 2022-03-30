@@ -1,14 +1,7 @@
 export const checkSource = (url) => {
-    const img = new Image();
-    img.src = url;
-    if (img.complete) {
+    let regex = /(https?:\/\/.*\.(?:png|jpg))/i
+    if (url && url.match(regex)) {
         return true
     }
-    img.onload = () => {
-        return true
-    };
-
-    img.onerror = () => {
-        return false
-    };
+    return false;
 }

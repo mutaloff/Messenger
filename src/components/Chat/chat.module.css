@@ -24,3 +24,23 @@
     margin: 0 5px;
 }
 
+.name {
+    padding: 0 45px;
+    font-family: 'Exo2';
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.deleteMessages {
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+
+.deleteMessages:hover {
+    opacity: 70%;
+}

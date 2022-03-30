@@ -1,5 +1,6 @@
 import { authContact, logoutContact, checkContact, getUserInfo } from "./actions"
-import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT, RESETUSERAVATAR, RESETUSERSTATUS } from "./types"
+import { RESETUSERAVATAR, RESETUSEREMAIL, RESETUSEREMAILPASSWORD, RESETUSEREMAILRECEIVE, RESETUSERISPRIVATE, RESETUSERSTATUS } from "./types"
+import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT } from "./types"
 import { AuthAPI, UserAPI } from "../api"
 
 
@@ -8,7 +9,6 @@ const initialState = {
     login: undefined,
     userData: undefined
 }
-
 
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -44,6 +44,26 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userData: setUserStatus(state.userData, action.payload)
+            }
+        case RESETUSEREMAIL:
+            return {
+                ...state,
+                userData: setUserEmail(state.userData, action.payload)
+            }
+        case RESETUSEREMAILPASSWORD:
+            return {
+                ...state,
+                userData: setUserEmailPassword(state.userData, action.payload)
+            }
+        case RESETUSEREMAILRECEIVE:
+            return {
+                ...state,
+                userData: setUserEmailReceive(state.userData, action.payload)
+            }
+        case RESETUSERISPRIVATE:
+            return {
+                ...state,
+                userData: setUserIsPrivate(state.userData, action.payload)
             }
         default:
             return state
@@ -93,5 +113,25 @@ const setUserAvatar = (data, avatar) => {
 
 const setUserStatus = (data, status) => {
     data.status = status
+    return data
+}
+
+const setUserEmail = (data, email) => {
+    data.email = email
+    return data
+}
+
+const setUserEmailPassword = (data, emailPassword) => {
+    data.email_password = emailPassword
+    return data
+}
+
+const setUserEmailReceive = (data, emailReceive) => {
+    data.receive_email = emailReceive
+    return data
+}
+
+const setUserIsPrivate = (data, isPrivate) => {
+    data.is_private = isPrivate
     return data
 }

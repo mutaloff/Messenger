@@ -88,6 +88,7 @@ function ContactSelect({ contacts, onlineContacts, location, width, navPanelIsVi
             contacts.map((contact, i) => (
                 <div className={styles.selectedContact} key={i}>
                     <Contact
+                        disabled={true}
                         index={i}
                         contact={contact}
                         onlineContacts={onlineContacts}

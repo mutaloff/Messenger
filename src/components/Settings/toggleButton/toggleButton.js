@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./toggleButton.module.css";
 
-const ToggleSwitch = ({ isOn, handleToggle, onColor, size }) => {
+const ToggleSwitch = ({ isOn, handleToggle, onColor, size, id }) => {
     return (
         <>
             <input
                 checked={isOn}
                 onChange={handleToggle}
                 className={styles.reactSwitchCheckbox}
-                id={`reactSwitchNew`}
+                id={id}
                 type="checkbox"
             />
             <label
@@ -16,7 +16,7 @@ const ToggleSwitch = ({ isOn, handleToggle, onColor, size }) => {
                     background: isOn && onColor, width: `${size}px`, height: `${size / 2}px`
                 }}
                 className={styles.reactSwitchLabel}
-                htmlFor={`reactSwitchNew`}
+                htmlFor={id}
             >
                 <span
                     className={styles.reactSwitchButton}

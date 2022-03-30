@@ -1,4 +1,5 @@
-import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETMESSAGESCOUNT, SETMESSAGEFETCHING, SETMESSAGESREAD, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT } from "./types"
+import { SENDMESSAGE, CURRENTRECEIVER, GETMESSAGES, GETMESSAGESCOUNT } from "./types";
+import { SETMESSAGEFETCHING, SETMESSAGESREAD, SETRECEIVERMESSAGECOUNT, DELETEMESSAGES } from "./types"
 import { MessageAPI, UserAPI } from "../api"
 import { getUserMessages, setCurrentReceiver, setMessageFetching, setMessagesCount } from "./actions"
 import { getContacts } from "./contactReducer"
@@ -50,14 +51,27 @@ export const messageReducer = (state = initialState, action) => {
                 ...state,
                 receiverMessageCount: action.payload
             }
+        case DELETEMESSAGES:
+            return {
+                ...state,
+                messages: filterMessages(state.messages, action.payload)
+            }
         default:
             return state
     }
 }
 
-export const getMessages = (sender, receiver, page, toAdd, limit) => {
+const filterMessages = (messages, id) => {
+    return messages.filter(message => {
+        if (!id.some(id => id == message.id)) {
+            return message
+        }
+    })
+}
+
+export const getMessages = (sender, receiver, page, toAdd, limit, searchText) => {
     return (dispatch) => {
-        MessageAPI.getMessages(sender, receiver, page, limit)
+        MessageAPI.getMessages(sender, receiver, page, limit, searchText)
             .then(data => {
                 dispatch(setMessagesCount(data.totalCount))
                 dispatch(getUserMessages(data.messages, toAdd))

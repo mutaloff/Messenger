@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styles from './chatWindow.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessages } from '../../../redux/messageReducer';
-import { v4 } from 'uuid';
 import Message from '../Message/message'
 
-function ChatWindow({ messages, hasMessages, loginTo }) {
+function ChatWindow({ messages, hasMessages, loginTo, searchingText, showCheck, setShowCheck }) {
 
     const dispatch = useDispatch()
 
@@ -21,17 +20,15 @@ function ChatWindow({ messages, hasMessages, loginTo }) {
 
     const receiverData = useSelector(state => state.messageReducer.receiver)
 
-    useEffect(() => setPage(1), [loginTo])
+    useEffect(() => setPage(1), [loginTo, searchingText])
 
-    useEffect(() => {
-        setFetching(true)
-    }, [messages])
+    useEffect(() => setFetching(true), [messages])
 
     const scroll = (e) => {
         if (e.target.scrollTop < e.target.offsetHeight - e.target.scrollHeight + 100 && fetching && page < Math.ceil(totalCount / 50)) {
             setFetching(false)
             setPage(prevState => {
-                dispatch(getMessages(loginFrom, loginTo, page, true, 50))
+                !searchingText && dispatch(getMessages(loginTo, loginFrom, page, true, 50, false))
                 return prevState + 1
             })
         }
@@ -42,13 +39,15 @@ function ChatWindow({ messages, hasMessages, loginTo }) {
                 ? messages.map((message, i) => (
                     (message.sender_login === loginTo || message.receiver_login === loginTo) &&
                     <Message
+                        showCheck={showCheck}
+                        setShowCheck={setShowCheck}
                         userData={userData}
                         receiverData={receiverData}
                         message={message}
                         messages={messages}
                         loginTo={loginTo}
                         index={i}
-                        key={v4()} />
+                        key={i} />
                 ))
                 : !messages.length && <h1>Сообщений пока нет</h1>
         }

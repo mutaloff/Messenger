@@ -1,0 +1,42 @@
+@import url('../../../assets/fonts/Exo2/exo2.css');
+
+.icon {
+    min-width: 30px;
+    height: 30px;
+    padding-right: 20px;
+}
+
+.searchMessages {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-family: 'Exo2';
+    padding: 0 10px;
+}
+
+.input {
+    padding-left: 10px;
+    padding-bottom: 3px;
+    background-color: rgb(199, 199, 199);
+    border: none;
+    border-bottom: 1px rgb(105, 104, 182) solid;
+    height: 25px;
+    outline: none;
+    font-size: 18px;
+    color: rgb(82, 79, 79);
+    width: 100%;
+}
+.input::placeholder {
+    font-size: 18px;
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    color: rgb(105, 104, 182);
+}
+
+.button:hover {
+    opacity: 70%;
+}

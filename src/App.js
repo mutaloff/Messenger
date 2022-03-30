@@ -24,6 +24,8 @@ function App() {
 
     const receiver = useSelector(state => state.messageReducer.receiver)
 
+    const page = useSelector(state => state.appReducer.page)
+
     let dispatch = useDispatch()
 
 
@@ -58,7 +60,7 @@ function App() {
                 ? <div className={styles.app}>
                     <Sidebar />
                     <Routes>
-                        <Route path={'*'} element={<Navigate replace to={'messages'} />} />
+                        <Route path={'*'} element={<Navigate replace to={page} />} />
                         <Route path={'messages/:login'} element={<Chat />} />
                         <Route path={'settings'} element={<Settings />} />
                         <Route path={'messages'} element={<Absence text='Выберите чат, чтобы начать переписку' />} />

@@ -1,6 +1,6 @@
-import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, RESETUSERAVATAR } from "./types";
-import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, SETSUBSCRIPTION } from "./types";
-import { GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME, SETMESSAGEFETCHING, RESETUSERSTATUS } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, RESETUSERAVATAR, DELETEMESSAGES, RESETUSEREMAILRECEIVE } from "./types";
+import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, SETSUBSCRIPTION, RESETUSEREMAIL, RESETUSERISPRIVATE } from "./types";
+import { GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME, SETMESSAGEFETCHING, RESETUSERSTATUS, RESETUSEREMAILPASSWORD } from "./types";
 import { SETPOPUPOPTION, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT, SETREADYPOINT, SETREADYHANDLERDATA, SETIMPORTANCE } from "./types";
 
 export function sendMessage(data) {
@@ -155,9 +155,45 @@ export function resetAvatar(avatar) {
     }
 }
 
+export function resetEmail(email) {
+    return {
+        type: RESETUSEREMAIL,
+        payload: email
+    }
+}
+
+export function resetEmailPassword(emailPassword) {
+    return {
+        type: RESETUSEREMAILPASSWORD,
+        payload: emailPassword
+    }
+}
+
+export function resetEmailReceive(emailReceive) {
+    return {
+        type: RESETUSEREMAILRECEIVE,
+        payload: emailReceive
+    }
+}
+
+export function resetIsPrivate(isPrivate) {
+    return {
+        type: RESETUSERISPRIVATE,
+        payload: isPrivate
+    }
+}
+
 export function resetStatus(status) {
     return {
         type: RESETUSERSTATUS,
         payload: status
     }
 }
+
+export function deleteMessages(id) {
+    return {
+        type: DELETEMESSAGES,
+        payload: id
+    }
+}
+

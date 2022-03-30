@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { UserAPI } from "../../../api";
-import { resetAvatar } from "../../../redux/actions";
+import { resetEmailPassword } from "../../../redux/actions";
 import styles from './inputSettings.module.css'
 
-const Avatar = ({ avatar, login }) => {
+const EmailPassword = ({ emailPassword, login }) => {
 
     const inputRef = useRef()
 
@@ -15,21 +15,22 @@ const Avatar = ({ avatar, login }) => {
     const inputHandler = (e) => {
         setDisplayInput(!displayInput)
     }
-
-    const [text, setText] = useState(avatar)
+    const [text, setText] = useState('')
 
     const changeHandler = (e) => {
         setText(e.target.value)
     }
 
     useEffect(() => {
-        avatar && setText(avatar)
-    }, [avatar])
+        if (emailPassword) {
+            setText(emailPassword)
+        }
+    }, [emailPassword])
 
     const blurHandler = (e) => {
         setDisplayInput(!displayInput)
-        dispatch(resetAvatar(text))
-        UserAPI.setAvatar(login, text)
+        dispatch(resetEmailPassword(text))
+        UserAPI.setEmailPassword(login, text)
     }
 
     useEffect(() => {
@@ -37,24 +38,23 @@ const Avatar = ({ avatar, login }) => {
     }, [displayInput])
 
     return <div className={styles.main}>
-        <div>Ссылка на фото профиля</div>
+        <div>Пароль от email</div>
         <div
             onDoubleClick={inputHandler}
             className={styles.href}
-            style={{ display: !displayInput ? 'block' : 'none' }}>
-            {text ? text : 'Нажмите сюда два раза, чтобы установить ссылку'}
+            style={{ display: !displayInput ? 'block' : 'none', fontFamily: text ? 'password' : '' }}>
+            {text ? text : 'Нажмите сюда два раза, чтобы установить пароль от Email'}
         </div>
         <input
-            type='url'
             value={text}
             onChange={changeHandler}
             className={styles.input}
-            placeholder='Вставьте ссылку на картинку'
+            placeholder='Вставьте пароль от электронной почты'
             ref={inputRef}
             onBlur={blurHandler}
-            style={{ display: displayInput ? 'block' : 'none' }}
+            style={{ display: displayInput ? 'block' : 'none', fontFamily: 'password' }}
         />
     </div >
 }
 
-export default Avatar;
+export default EmailPassword;

@@ -45,8 +45,8 @@ function ContactList(props) {
         })
     }, []);
 
-    const pageHandler = (page) => {
-        dispatch(setPage(page))
+    const pageHandler = (newPage) => {
+        dispatch(setPage(newPage))
     }
 
     const popupDisplayHandler = () => {

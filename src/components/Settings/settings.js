@@ -10,6 +10,9 @@ import { UserAPI } from "../../api";
 import Avatar from "./inputSettings/avatar";
 import { getContacts } from "../../redux/contactReducer";
 import Status from "./inputSettings/status";
+import Email from "./inputSettings/email";
+import EmailPassword from "./inputSettings/emailPassword";
+import { resetEmailReceive, resetIsPrivate } from "../../redux/actions";
 
 export const Settings = (props) => {
 
@@ -23,9 +26,15 @@ export const Settings = (props) => {
 
     const [isPrivate, setIsPrivate] = useState(false);
 
+    const [receiveEmail, setReceiveEmail] = useState(false)
+
     const [avatar, setAvatar] = useState('');
 
     const [status, setStatus] = useState('');
+
+    const [email, setEmail] = useState('');
+
+    const [emailPassword, setEmailPassword] = useState('');
 
     const userData = useSelector(state => state.authReducer.userData);
 
@@ -35,14 +44,25 @@ export const Settings = (props) => {
         if (userData?.is_private) {
             setIsPrivate(userData?.is_private)
         }
+        if (userData?.receive_email) {
+            setReceiveEmail(userData?.receive_email)
+        }
         setAvatar(userData?.avatar)
         setStatus(userData?.status)
+        setEmail(userData?.email)
+        setEmailPassword(userData?.email_password)
     }, [userData])
 
-
     const privateHandler = () => {
+        dispatch(resetIsPrivate(!isPrivate))
         setIsPrivate(!isPrivate)
         UserAPI.setPrivate(login, !isPrivate ? 1 : 0)
+    }
+
+    const receiveEmailHandler = () => {
+        dispatch(resetEmailReceive(!receiveEmail))
+        setReceiveEmail(!receiveEmail)
+        UserAPI.setEmailReceive(login, !receiveEmail ? 1 : 0)
     }
 
     return <div className={styles.settings}>
@@ -51,13 +71,26 @@ export const Settings = (props) => {
         }
         <Avatar avatar={avatar} login={login} />
         <Status status={status} login={login} />
+        <Email email={email} login={login} />
+        <EmailPassword emailPassword={emailPassword} login={login} />
+        <div className={styles.isPrivate}>
+            Получать email
+            <ToggleSwitch
+                size={70}
+                isOn={receiveEmail}
+                onColor="#EF476F"
+                handleToggle={receiveEmailHandler}
+                id={'emailReceiveID'}
+            />
+        </div>
         <div className={styles.isPrivate}>
             Приватный аккаунт
             <ToggleSwitch
                 size={70}
                 isOn={isPrivate}
                 onColor="#EF476F"
-                handleToggle={() => privateHandler()}
+                handleToggle={privateHandler}
+                id={'isPrivateID'}
             />
         </div>
 

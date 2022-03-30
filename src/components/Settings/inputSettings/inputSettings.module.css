@@ -1,3 +1,6 @@
+@import url('./../../../assets/fonts/Password/password.css');
+@import url('./../../../assets/fonts/Exo2/exo2.css');
+
 .main {
     font-family: 'Exo2';
     align-items: center;
@@ -20,12 +23,24 @@
     text-align: right;
 }
 
-.input {
+.input{
     display: block;
     width: 50%;
     outline: none;
     border: none;
     background-color: transparent;
-    height: 14px;
+    height: 18px;
     font-size: 14px;
+}
+
+.input::placeholder{
+    font-family: 'Exo2';
+}
+
+.warning {
+    display: flex;
+    align-self: flex-start;
+    padding: 0 20px;
+    margin: -9px 0px;
+    color: red;
 }

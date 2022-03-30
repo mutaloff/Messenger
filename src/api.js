@@ -85,6 +85,15 @@ export const UserAPI = {
     },
     setStatus(login, status) {
         return instance.post(BASE_URL + 'set-status', { login, status })
+    },
+    setEmail(login, email) {
+        return instance.post(BASE_URL + 'set-email', { login, email })
+    },
+    setEmailPassword(login, emailPassword) {
+        return instance.post(BASE_URL + 'set-email-password', { login, emailPassword })
+    },
+    setEmailReceive(login, emailReceive) {
+        return instance.post(BASE_URL + 'set-email-receive', { login, emailReceive })
     }
 }
 
@@ -116,8 +125,8 @@ export const MessageAPI = {
             return response.data
         })
     },
-    getMessages(senderLogin, receiverLogin, page, limit) {
-        return instance.post('/get-messages', { senderLogin, receiverLogin, page, limit }).then(response => {
+    getMessages(senderLogin, receiverLogin, page, limit, searchText, additions) {
+        return instance.post('/get-messages', { senderLogin, receiverLogin, page, limit, searchText, additions }).then(response => {
             return response.data
         })
     },
@@ -126,5 +135,8 @@ export const MessageAPI = {
     },
     setImportance(ownerLogin, contactLogin, importance) {
         return instance.post('/set-importance', { ownerLogin, contactLogin, importance })
+    },
+    deleteMessages(id, messages, senderLogin, receiverLogin) {
+        return instance.post('/delete-messages', { id, messages, senderLogin, receiverLogin })
     }
 }

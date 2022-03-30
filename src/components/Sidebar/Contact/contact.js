@@ -13,9 +13,11 @@ import { v4 } from 'uuid'
 import { checkSource } from "../../../utils/checkSourse";
 
 function Contact(props) {
+
     const dispatch = useDispatch()
 
     const msgPage = 'messages/';
+
     const userPage = 'users/'
 
     const loginTo = useSelector(state => state.messageReducer.receiver?.login)
@@ -34,12 +36,12 @@ function Contact(props) {
         dispatch(setReceiver(props.contact.login))
         page === msgPage && dispatch(setReceiverMessageCount(props.contact.messages_count))
         if (props.contact.login != loginTo) {
-            dispatch(getMessages(props.contact.login, loginFrom, 0, false, messagesCount > 50 ? messagesCount + 20 : 50))
+            dispatch(getMessages(props.contact.login, loginFrom, 0, false, messagesCount > 50 ? messagesCount + 20 : 50, false))
         }
     }
 
     useEffect(() => {
-        if (loginTo === props.contact.login && page === msgPage) {
+        if (loginTo === props.contact.login && page === msgPage && !props.disabled) {
             dispatch(setReadMessages(loginTo, loginFrom))
         }
     }, [messages])
@@ -55,7 +57,7 @@ function Contact(props) {
         <Link
             className={styles.contact}
             onClick={clickHandler}
-            to={props.link}
+            to={!props.disabled ? props.link : ""}
             style={props.navPanelIsVisible ? { width: props.width - 25 } : { width: props.width }}>
             <img
                 src={isAvatarExists ? props.contact.avatar : userLogo}
@@ -103,7 +105,8 @@ function Contact(props) {
                 }
             </div>
             {
-                page === msgPage && props.navPanelIsVisible && Boolean(props.contact.importance) && <div
+                page === msgPage && props.navPanelIsVisible && Boolean(props.contact.importance) && !props.disabled &&
+                <div
                     className={styles.unreadCount}
                     style={{
                         display: messagesCount ? 'flex' : 'none',

@@ -4,29 +4,46 @@ import TextInput from "./TextInput/textInput";
 import styles from "./chat.module.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { resetMessageCount, setCurrentReceiver, setMessageFetching, setMessagesRead, setUserSubscription } from "../../redux/actions";
+import { deleteMessages, resetMessageCount, setCurrentReceiver, setMessageFetching, setMessagesRead, setReadyData, setUserSubscription } from "../../redux/actions";
 import { Absence } from "./Absence/absence";
 import { useWindowSize } from "../../customHooks/useWindowSize";
 import { useParams } from 'react-router-dom';
 import { setReceiver } from "../../redux/messageReducer";
 import { getUser } from "../../redux/authReducer";
 import { getMessages } from "../../redux/messageReducer";
-import { UserAPI } from "../../api";
+import { MessageAPI, UserAPI } from "../../api";
 import Loader from "../Common/Loader/loader";
 import chatLoaderIcon from "../../assets/imgs/chat-loader.gif";
+import deleteIcon from "../../assets/imgs/trash.png";
 import socket from "../../socket";
 import BackButton from "./BackButton/backButton";
+import SearchMessages from "./SearchMessages/searchMessages";
+import { getContacts } from "../../redux/contactReducer";
 
 function Chat(props) {
+
     const dispatch = useDispatch()
 
     const subscription = useSelector(state => state.contactReducer.subscription)
 
     const { messages, isMessagesFetching, receiver, messagesCount } = useSelector(state => state.messageReducer)
 
+    const userData = useSelector(state => state.authReducer.userData)
+
     const loginTo = useParams().login
 
     const loginFrom = useSelector(state => state.authReducer.login)
+
+    const [userMessages, setUserMessages] = useState(messages);
+
+    const [showCheck, setShowCheck] = useState(false);
+
+    const [searchingText, setSearchingText] = useState('');
+
+    const [isSearching, setIsSearching] = useState(false)
+
+    const { readyPoint, readyData } = useSelector(state => state.appReducer)
+
 
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
@@ -36,6 +53,15 @@ function Chat(props) {
             })
         }
     })
+
+    useEffect(() => {
+        setUserMessages(messages)
+        setShowCheck(false)
+    }, [messages])
+
+    useEffect(() => {
+        dispatch(getMessages(loginTo, loginFrom, 0, false, messagesCount > 50 ? messagesCount + 20 : 50, false))
+    }, [])
 
     useEffect(() => {
         if (loginTo) {
@@ -48,24 +74,54 @@ function Chat(props) {
                     ? dispatch(setUserSubscription(true))
                     : dispatch(setUserSubscription(false))
             })
-            dispatch(getMessages(loginFrom, loginTo, 0, false, messagesCount > 50 ? messagesCount + 20 : 50))
         }
         return () => {
             dispatch(setCurrentReceiver(null))
             dispatch(resetMessageCount(loginTo))
+            dispatch(setMessagesRead())
         }
     }, [loginTo])
+
+    const deleteHandler = (e) => {
+        MessageAPI.deleteMessages(readyData, messages, loginFrom, loginTo)
+        dispatch(deleteMessages(readyData))
+        dispatch(getContacts(loginFrom))
+        dispatch(setReadyData(null))
+        setShowCheck(false)
+    }
 
     const hasMessages = messages.some(message => message.sender_login === loginTo || message.receiver_login === loginTo)
 
     const [width, height] = useWindowSize()
 
     return <div className={styles.chat} style={{ height: `${height}px` }}>
-        <div className={styles.infoBar}>
+        <div className={styles.infoBar} style={{ justifyContent: isSearching ? 'flex-end' : 'center' }}>
             {
                 width < 700 && <BackButton />
             }
-            <div className={styles.name}>{receiver && `${receiver.firstname} ${receiver.lastname}`}</div>
+            {
+                !isSearching && !readyPoint &&
+                <div className={styles.name}>{receiver && `${receiver.firstname} ${receiver.lastname}`}</div>
+            }
+            {
+                showCheck
+                    ? <img
+                        onClick={deleteHandler}
+                        src={deleteIcon}
+                        className={styles.deleteMessages}
+                    />
+                    : <SearchMessages
+                        readyPoint={readyPoint}
+                        setUserMessages={setUserMessages}
+                        loginTo={loginTo}
+                        loginFrom={loginFrom}
+                        setSearchingText={setSearchingText}
+                        setIsSearching={setIsSearching}
+                        isSearching={isSearching}
+                        searchingText={searchingText}
+                    />
+            }
+
         </div>
         {
             isMessagesFetching
@@ -73,7 +129,14 @@ function Chat(props) {
                 : (!receiver?.is_private || subscription === true)
                     ? <>
                         <div className={styles.chatWindow} style={{ height: `${height - 100}px` }}>
-                            <ChatWindow messages={messages} hasMessages={hasMessages} loginTo={loginTo} />
+                            <ChatWindow
+                                messages={userMessages}
+                                hasMessages={hasMessages}
+                                loginTo={loginTo}
+                                searchingText={searchingText}
+                                showCheck={showCheck}
+                                setShowCheck={setShowCheck}
+                            />
                         </div>
                         <div className={styles.textInput}>
                             <TextInput hasMessages={hasMessages} />
