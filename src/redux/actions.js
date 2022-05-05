@@ -1,11 +1,20 @@
-import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, RESETUSERAVATAR, DELETEMESSAGES, RESETUSEREMAILRECEIVE } from "./types";
+import { CURRENTRECEIVER, GETMESSAGES, SEARCHCONTACT, SENDMESSAGE, GETMESSAGESCOUNT, SETMESSAGESREAD, SENDASSIGNMENT } from "./types";
+import { RESETUSERAVATAR, DELETEMESSAGES, RESETUSEREMAILRECEIVE, SETASSIGNMENTDONE, GETASSIGNMENT, GETSPAM, SETSPAMFALSE, } from "./types";
 import { CREATECONTACT, AUTHCONTACT, LOGOUTCONTACT, CHECKCONTACT, SETSUBSCRIPTION, RESETUSEREMAIL, RESETUSERISPRIVATE } from "./types";
 import { GETUSERINFORMATION, SETPAGE, UPDATELEAVINGTIME, SETMESSAGEFETCHING, RESETUSERSTATUS, RESETUSEREMAILPASSWORD } from "./types";
 import { SETPOPUPOPTION, RESETMESSAGECOUNT, SETRECEIVERMESSAGECOUNT, SETREADYPOINT, SETREADYHANDLERDATA, SETIMPORTANCE } from "./types";
+import { SETREGISTRATION, ENTRYERROR } from "./types";
 
 export function sendMessage(data) {
     return {
         type: SENDMESSAGE,
+        payload: data
+    }
+}
+
+export function sendAssignment(data) {
+    return {
+        type: SENDASSIGNMENT,
         payload: data
     }
 }
@@ -55,6 +64,20 @@ export function getUserMessages(text, toAdd) {
     return {
         type: GETMESSAGES,
         payload: { text, toAdd }
+    }
+}
+
+export function getUserAssignment(text) {
+    return {
+        type: GETASSIGNMENT,
+        payload: { text }
+    }
+}
+
+export function getUserSpam(text) {
+    return {
+        type: GETSPAM,
+        payload: { text }
     }
 }
 
@@ -197,3 +220,29 @@ export function deleteMessages(id) {
     }
 }
 
+export function setAssignmentDone(id, condition) {
+    return {
+        type: SETASSIGNMENTDONE,
+        payload: { id, condition }
+    }
+}
+
+export function setSpamFalse(spam) {
+    return {
+        type: SETSPAMFALSE,
+        payload: { spam }
+    }
+}
+
+export function setRegistration() {
+    return {
+        type: SETREGISTRATION
+    }
+}
+
+export function setEntryError(condition) {
+    return {
+        type: ENTRYERROR,
+        payload: { condition }
+    }
+}

@@ -1,0 +1,20 @@
+@import url('../../../assets/fonts/Exo2/exo2.css');
+
+
+.assignment {
+    padding: 8px 3px;
+}
+
+.text {
+    padding-left: 3px;
+    border-radius: 3px;
+
+}
+
+.time {
+    display: block;
+    margin: 8px 0px;
+    padding: 2px 3px;
+    border-top: 1px solid rgb(36, 15, 98);
+    width: fit-content;
+}

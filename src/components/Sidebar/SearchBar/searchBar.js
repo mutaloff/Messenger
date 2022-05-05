@@ -3,7 +3,7 @@ import styles from './searchBar.module.css'
 import editIcon from '../../../assets/imgs/edit_icon.png'
 import searchIcon from '../../../assets/imgs/search_icon.png'
 import contactOption from '../../../assets/imgs/contact_option.png'
-import { searchUser, getContacts } from "../../../redux/contactReducer";
+import { searchUser, getContacts, searchLabels } from "../../../redux/contactReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { setPopupOption } from "../../../redux/actions";
 import { UserAPI } from "../../../api";
@@ -37,7 +37,11 @@ function SearchBar(props) {
         if (e.target.value === '') {
             dispatch(getContacts(props.userLogin))
         } else {
-            dispatch(searchUser(e.target.value))
+            if (e.target.value[0] === '#') {
+                dispatch(searchLabels(props.userLogin, e.target.value))
+            } else {
+                dispatch(searchUser(e.target.value))
+            }
         }
     }
 

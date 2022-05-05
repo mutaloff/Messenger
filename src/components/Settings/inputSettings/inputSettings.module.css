@@ -12,6 +12,7 @@
     background-color: rgb(190, 190, 190);
     margin: 20px;
     border-radius: 8px;
+    min-height: 30px;
 }
 
 .href {
@@ -23,7 +24,7 @@
     text-align: right;
 }
 
-.input{
+.input {
     display: block;
     width: 50%;
     outline: none;
@@ -33,7 +34,7 @@
     font-size: 14px;
 }
 
-.input::placeholder{
+.input::placeholder {
     font-family: 'Exo2';
 }
 

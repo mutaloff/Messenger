@@ -93,8 +93,6 @@ export const Settings = (props) => {
                 id={'isPrivateID'}
             />
         </div>
-
-
         <button className={styles.button} onClick={exitHandler}>Выйти</button>
     </div>
 }

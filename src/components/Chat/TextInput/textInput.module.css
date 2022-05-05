@@ -4,8 +4,8 @@
     border: none;
     background-color: transparent;
     font-size: 20px;
-    width: 100%;
-    padding-left: 15px;
+    margin-left: 15px;
+    height: 45px;
 }
 
 .img {
@@ -19,13 +19,14 @@
     height: 50px;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    margin-right: 15px;
 }
 
-.input::placeholder{
-    color:black
+.input::placeholder {
+    color: rgb(25, 23, 56);
 }
 
-.img:hover{
+.img:hover {
     opacity: 70%;
 }
-

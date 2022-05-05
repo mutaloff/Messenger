@@ -4,10 +4,11 @@ import userLogo from '../../../assets/imgs/user_icon.png';
 import { useRef } from 'react';
 import { checkSource } from '../../../utils/checkSourse';
 import RountCheckbox from '../../Common/RoundCheckbox/roundCheckbox';
-import { setReadyData } from '../../../redux/actions';
+import { setAssignmentDone, setReadyData, setSpamFalse } from '../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { isURL } from '../../../utils/isUrl';
-import { Link } from 'react-router-dom';
+import Assignment from '../Assignment/assignment';
+import { MessageAPI } from '../../../api';
 
 function Message({ message, messages, index, loginTo, userData, receiverData, showCheck, setShowCheck }) {
 
@@ -33,6 +34,8 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
 
     useEffect(() => myRef.current?.scrollIntoView(), [loginTo, myRef])
 
+    const [timeout, setTimeout] = useState(null)
+
     useEffect(() => {
         if (hasReceiver) {
             setAvatar(receiverData.avatar)
@@ -42,6 +45,7 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
             setAvatar(userLogo)
         }
     }, [messages])
+
 
     useEffect(() => {
         if (isChecked) {
@@ -53,6 +57,11 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
         setShowCheck(!showCheck)
     }
 
+    const spamHandler = (e) => {
+        dispatch(setSpamFalse(message))
+        MessageAPI.updateSpam(message.id)
+    }
+
     const checkHandler = (e) => {
         setIsChecked(!isChecked)
         !isChecked
@@ -60,7 +69,10 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
             : dispatch(setReadyData(readyData.filter(data => data != message.id)))
     }
 
-
+    const assignmentHandler = (element, isChecked) => {
+        dispatch(setAssignmentDone(element.id, !isChecked))
+        MessageAPI.setAssignmentDone(element.id, !isChecked ? 1 : 0)
+    }
 
     return <div className={styles.main}>
         {
@@ -73,31 +85,75 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
         <div className={styles.newMessage} ref={myRef} style={{ display: isNewMessage ? 'flex' : 'none' }}>
             Новые сообщения
         </div>
+
         <div className={styles.message} style={{
             backgroundColor: isChecked ? 'gray' : !message.is_read && message.sender_login !== loginTo ? 'rgb(214, 214, 214)' : '',
         }}>
-            {
-                (repeatUserIcon || message.email || showDate) && <img src={avatar} className={styles.logo} />
-            }
-            <div className={styles.messageBlock} style={{ width: repeatUserIcon ? 'calc(100% - 50px)' : '100%' }} onDoubleClick={clickHandler}>
+            <div className={styles.image}>
                 {
-                    (repeatUserIcon || message.email || showDate) && <div className={styles.username}>{`${message.firstname}   ${message.email ? '📧' : ''}`}</div>
+                    (repeatUserIcon || message.email || showDate || message.assignment) && <img src={avatar} className={styles.logo} />
                 }
                 {
-                    isURL(message.text)
-                        ? <a
-                            style={message.email || showDate ? {} : !repeatUserIcon ? { paddingLeft: '65px', paddingTop: 0 } : {}}
-                            href={message.text} target="_blank"
-                            className={styles.messageText}>{message.text}
-                        </a>
-                        : <div
+                    !timeout && message.assignment && message.sender_login == loginTo &&
+                    <div
+                        className={styles.setDone}
+                        style={{ display: new Date(message.assignment_term) - new Date() < 0 ? 'none' : 'flex' }}>
+                        <RountCheckbox
+                            element={message}
+                            checkHandler={assignmentHandler}
+                            checking={Boolean(message.is_done)}
+                        />
+                    </div>
+                }
+            </div>
+            {
+                !message.is_spam
+                    ? <div className={styles.messageBlock}
+                        style={{ width: repeatUserIcon ? 'calc(100% - 50px)' : '100%' }}
+                        onDoubleClick={clickHandler}>
+                        {
+                            (repeatUserIcon || message.email || showDate || message.assignment) &&
+                            <div className={styles.username}>{`${message.firstname}   ${message.email ? '📧' : ''}`}</div>
+                        }
+                        {
+                            message.assignment
+                                ? <div
+                                    className={styles.messageText}
+                                    style={message.email || showDate ? {} : !repeatUserIcon ? { paddingTop: 0 } : {}}>
+                                    <Assignment message={message} setTimeout={setTimeout} messages={messages} />
+                                </div>
+                                : isURL(message.text)
+                                    ? <a
+                                        style={message.email || showDate ? {} : !repeatUserIcon ? { paddingTop: 0 } : {}}
+                                        href={message.text} target="_blank"
+                                        className={styles.messageText}>{message.text}
+                                    </a>
+                                    : <div
+                                        className={styles.messageText}
+                                        style={message.email || showDate ? {} : !repeatUserIcon ? { paddingTop: 0 } : {}}>
+                                        {message.text}
+                                    </div>
+
+                        }
+                    </div>
+                    : <div className={styles.messageBlock}
+                        style={{ width: repeatUserIcon ? 'calc(100% - 50px)' : '100%' }}
+                        onDoubleClick={clickHandler}>
+                        {
+                            (repeatUserIcon || message.email || showDate || message.assignment) &&
+                            <div className={styles.username}>{`${message.firstname}   ${message.email ? '📧' : ''}`}</div>
+                        }
+                        <div
                             className={styles.messageText}
-                            style={message.email || showDate ? {} : !repeatUserIcon ? { paddingLeft: '65px', paddingTop: 0 } : {}}>
+                            style={message.email || showDate ? {} : !repeatUserIcon ? { paddingTop: 0 } : {}}>
                             {message.text}
                         </div>
-                }
-
-            </div>
+                    </div>
+            }
+            {
+                message?.is_spam == 1 && message?.sender_login == loginTo &&
+                <div className={styles.spam} onClick={spamHandler}>Не спам</div>
+            }
             <div className={styles.time}>
                 {
                     message.date
@@ -105,13 +161,14 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
                         : ('0' + new Date().getHours()).slice(-2) + ":" + ('0' + new Date().getMinutes()).slice(-2)
                 }
             </div>
-            <div >
+
+            <div>
                 <div className={styles.roundCheckbox} style={{ display: showCheck ? 'flex' : 'none' }}>
                     <RountCheckbox element={message} checkHandler={checkHandler} uncheck={!isChecked} />
                 </div>
             </div>
         </div>
-    </div>
+    </div >
 }
 
 export default Message;

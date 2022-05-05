@@ -12,10 +12,11 @@ import { Absence } from "./components/Chat/Absence/absence";
 import Profile from "./components/Profile/profile";
 import socket from "./socket";
 import messageSound from './../src/assets/sounds/message-sound.mp3'
-import { sendMessage } from "./redux/actions";
+import { getUserAssignment, sendAssignment, sendMessage } from "./redux/actions";
 import { getContacts } from "./redux/contactReducer";
 
 function App() {
+
     let { isAuth, login } = useSelector(state => state.authReducer)
 
     const soundEffect = new Audio();
@@ -26,8 +27,9 @@ function App() {
 
     const page = useSelector(state => state.appReducer.page)
 
-    let dispatch = useDispatch()
+    const { contacts } = useSelector(state => state.contactReducer)
 
+    let dispatch = useDispatch()
 
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
@@ -35,8 +37,12 @@ function App() {
             socket.emit('getOnline')
             socket.off('getMessage')
             socket.on('getMessage', data => {
-                soundEffect.play();
+                console.log(contacts.filter(contact => contact.login === data.sender_login)[0].importance)
+                if (contacts.filter(contact => contact.login === data.sender_login)[0].importance != 0) {
+                    soundEffect.play();
+                }
                 dispatch(sendMessage(data))
+                dispatch(sendAssignment(data))
                 setTimeout(() => dispatch(getContacts(login)), 50)
                 if (data.sender_login === receiver?.login) {
                     socket.emit('readMessage', login, receiver?.login)

@@ -1,13 +1,15 @@
-import { authContact, logoutContact, checkContact, getUserInfo } from "./actions"
+import { authContact, logoutContact, checkContact, getUserInfo, setEntryError } from "./actions"
 import { RESETUSERAVATAR, RESETUSEREMAIL, RESETUSEREMAILPASSWORD, RESETUSEREMAILRECEIVE, RESETUSERISPRIVATE, RESETUSERSTATUS } from "./types"
-import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT } from "./types"
+import { AUTHCONTACT, CHECKCONTACT, GETUSERINFORMATION, LOGOUTCONTACT, SETREGISTRATION, ENTRYERROR } from "./types"
 import { AuthAPI, UserAPI } from "../api"
 
 
 const initialState = {
     isAuth: false,
     login: undefined,
-    userData: undefined
+    userData: undefined,
+    isRegistrated: false,
+    entryError: false
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -22,7 +24,8 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isAuth: false,
-                login: undefined
+                login: undefined,
+                isRegistrated: false
             }
         case CHECKCONTACT:
             return {
@@ -65,6 +68,17 @@ export const authReducer = (state = initialState, action) => {
                 ...state,
                 userData: setUserIsPrivate(state.userData, action.payload)
             }
+        case SETREGISTRATION:
+            return {
+                ...state,
+                isRegistrated: true
+            }
+        case ENTRYERROR:
+            console.log(action.payload.condition)
+            return {
+                ...state,
+                entryError: action.payload
+            }
         default:
             return state
     }
@@ -77,6 +91,7 @@ export const authUser = (login, password, isRemeber) => {
             data.connection && localStorage.setItem('jwt', data.accessToken);
             data.connection && dispatch(authContact(login))
             data.connection && dispatch(getUser(login))
+            data.connection ? dispatch(setEntryError(false)) : dispatch(setEntryError(true))
         });
     }
 }

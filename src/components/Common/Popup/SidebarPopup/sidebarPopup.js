@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setPopupOption } from "../../../redux/actions";
+import { setPopupOption } from "../../../../redux/actions";
 import styles from './sidebarPopup.module.css';
 import { v4 } from 'uuid';
 import { useRef } from "react";

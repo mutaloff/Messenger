@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { UserAPI } from '../../../api';
 import styles from './input.module.css'
 
 
-export function Input({ type, changeHandler, value, placeholder, password, signin }) {
+export function Input({ type, changeHandler, value, placeholder, password, signin, setReg }) {
+
     const [warning, setWarning] = useState('');
 
     const validationHandler = (e) => {
@@ -13,6 +15,8 @@ export function Input({ type, changeHandler, value, placeholder, password, signi
             setWarning('Пустое поле')
         } else if (!signin) switch (type) {
             case 'login':
+                setReg(false)
+                let pattern = /^[a-zA-Z](.[a-zA-Z0-9_-]*)$/;
                 if (e.target.value.length > 4) {
                     UserAPI.checkUser(e.target.value).then(data => {
                         if (data.length) {
@@ -22,7 +26,11 @@ export function Input({ type, changeHandler, value, placeholder, password, signi
                 }
                 if (e.target.value.length < 5 && e.target.value.length > 0) {
                     setWarning('Логин слишком короткий')
+                }
+                else if (!pattern.test(e.target.value)) {
+                    setWarning("Логин содержит !@#$^&-_+=();:,.?|`~<>'")
                 } else {
+                    setReg(true)
                     setWarning('')
                 }
                 break;
@@ -47,7 +55,6 @@ export function Input({ type, changeHandler, value, placeholder, password, signi
         } else {
             setWarning('')
         }
-
     }
     return <div>
         <div className={styles.input}>

@@ -2,16 +2,21 @@ import React from "react";
 import styles from './form.module.css';
 import { Input } from "./Input/input";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authUser } from "../../redux/authReducer";
 import { Link } from "react-router-dom";
-import { path } from "../../config";
 import { setPage } from "../../redux/actions";
 
 export function Signin(props) {
+
     const dispatch = useDispatch();
+
+    const { isRegistrated, entryError } = useSelector(state => state.authReducer)
+
     const [login, setLogin] = useState('');
+
     const [password, setPassword] = useState('');
+
     const [isRemember, setRemeberCondition] = useState(false);
 
     const loginChangeHandler = (e) => {
@@ -39,6 +44,14 @@ export function Signin(props) {
             </div>
             <button onClick={entryHandler} className={styles.button}>Войти</button>
         </div>
-        <span className={styles.span}>Еще нет аккаунта? <Link to={path + '/signup'}>Зарегистрироваться</Link></span>
+        {
+            entryError &&
+            <span className={styles.entryError}>Неверный логин или пароль!</span>
+        }
+        {
+            isRegistrated
+                ? <span className={styles.span}>Вы  успешно зарегистрировались!</span>
+                : <span className={styles.span}>Еще нет аккаунта? <Link to={'/signup'}>Зарегистрироваться</Link></span>
+        }
     </div>
 }

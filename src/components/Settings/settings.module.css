@@ -7,6 +7,8 @@
     flex: auto;
     padding-top: 25px;
     align-items: center;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .button {
@@ -17,9 +19,10 @@
     color: red;
     font-size: 40px;
     border: none;
+    margin-bottom: 60px;
 }
 
-.button:hover{
+.button:hover {
     color: tomato;
 }
 
@@ -33,4 +36,5 @@
     background-color: rgb(190, 190, 190);
     margin: 20px;
     border-radius: 8px;
+    min-height: 38px;
 }

@@ -3,7 +3,7 @@ import styles from "./contact.module.css"
 import userLogo from '../../../assets/imgs/user_icon.png';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setReceiver } from "../../../redux/messageReducer";
+import { getAssignment, setReceiver } from "../../../redux/messageReducer";
 import { getMessages, setReadMessages } from "../../../redux/messageReducer";
 import { getTiming } from "../../../utils/timing";
 import { setReceiverMessageCount } from "../../../redux/actions";
@@ -26,6 +26,8 @@ function Contact(props) {
 
     const loginFrom = useSelector(state => state.authReducer.login)
 
+    const isSearching = useSelector(state => state.contactReducer.isSearching)
+
     const [messagesCount, setMessagesCount] = useState(0)
 
     const [subscribeState, setSubscribeState] = useState('')
@@ -37,9 +39,10 @@ function Contact(props) {
         page === msgPage && dispatch(setReceiverMessageCount(props.contact.messages_count))
         if (props.contact.login != loginTo) {
             dispatch(getMessages(props.contact.login, loginFrom, 0, false, messagesCount > 50 ? messagesCount + 20 : 50, false))
+            dispatch(getAssignment(props.contact.login, loginFrom))
+            dispatch(getMessages(props.contact.login, loginFrom, 0, false, 0, false, true))
         }
     }
-
     useEffect(() => {
         if (loginTo === props.contact.login && page === msgPage && !props.disabled) {
             dispatch(setReadMessages(loginTo, loginFrom))
@@ -93,14 +96,21 @@ function Contact(props) {
                         page === msgPage && props.contact.login === onlineContact.login
                             ? <div
                                 key={v4()}
-                                className={styles.onlineDot}
-                            />
-                            : <div
-                                style={{ width: props.width - 120 }}
-                                key={v4()}
-                                className={styles.online}>
-                                {props.contact.last_message}
+                                className={styles.onlineDot}>
                             </div>
+                            : !isSearching
+                                ? <div
+                                    style={{ width: props.width - 120 }}
+                                    key={v4()}
+                                    className={styles.online}>
+                                    {props.contact.last_message}
+                                </div>
+                                : page === msgPage && <div
+                                    style={{ width: props.width - 120 }}
+                                    key={v4()}
+                                    className={styles.online}>
+                                    {props.contact.labels}
+                                </div>
                     ))
                 }
             </div>

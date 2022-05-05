@@ -54,6 +54,11 @@ export const UserAPI = {
             return response.data
         })
     },
+    searchLabels(login, label) {
+        return instance.post(BASE_URL + 'search-by-labels', { login, label }).then(response => {
+            return response.data
+        })
+    },
     checkSubscription(ownerLogin, contactLogin) {
         return instance.post(BASE_URL + 'check-subscription', { ownerLogin, contactLogin }).then(response => {
             return response.data
@@ -94,6 +99,9 @@ export const UserAPI = {
     },
     setEmailReceive(login, emailReceive) {
         return instance.post(BASE_URL + 'set-email-receive', { login, emailReceive })
+    },
+    updateLabels(ownerLogin, contactLogin, labels) {
+        return instance.post(BASE_URL + 'update-labels', { ownerLogin, contactLogin, labels })
     }
 }
 
@@ -125,8 +133,23 @@ export const MessageAPI = {
             return response.data
         })
     },
-    getMessages(senderLogin, receiverLogin, page, limit, searchText, additions) {
-        return instance.post('/get-messages', { senderLogin, receiverLogin, page, limit, searchText, additions }).then(response => {
+    setAssignment(senderLogin, receiverLogin, name, text, term) {
+        return instance.post('/set-assignment', { senderLogin, receiverLogin, name, text, term }).then(response => {
+            return response.data
+        })
+    },
+    setAssignmentDone(id, condition) {
+        return instance.post('/set-done', { id, condition }).then(response => {
+            return response.data
+        })
+    },
+    getMessages(senderLogin, receiverLogin, page, limit, searchText, isSpam) {
+        return instance.post('/get-messages', { senderLogin, receiverLogin, page, limit, searchText, isSpam }).then(response => {
+            return response.data
+        })
+    },
+    getAssignment(senderLogin, receiverLogin) {
+        return instance.post('/get-assignment', { senderLogin, receiverLogin }).then(response => {
             return response.data
         })
     },
@@ -138,5 +161,8 @@ export const MessageAPI = {
     },
     deleteMessages(id, messages, senderLogin, receiverLogin) {
         return instance.post('/delete-messages', { id, messages, senderLogin, receiverLogin })
+    },
+    updateSpam(id) {
+        return instance.post('/update-spam', { id })
     }
 }

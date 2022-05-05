@@ -10,13 +10,13 @@ import { getContacts } from '../../../redux/contactReducer';
 import { Link } from 'react-router-dom';
 import socket from '../../../socket';
 import { setPage, updateLeavingTime } from '../../../redux/actions';
-import SidebarPopup from '../../Common/Popup/sidebarPopup';
 import { useWindowSize } from '../../../customHooks/useWindowSize';
 import Loader from '../../Common/Loader/loader';
 import settingLoaderIcon from './../../../assets/imgs/setting-loader.gif'
 import Grouping from '../Grouping/grouping';
 import { sortContacts } from '../../../utils/sortContacts';
 import ContactSelect from '../ContactSelect/contactSelect';
+import SidebarPopup from '../../Common/Popup/SidebarPopup/sidebarPopup';
 
 
 function ContactList(props) {

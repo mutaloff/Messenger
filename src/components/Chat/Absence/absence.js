@@ -11,9 +11,6 @@ export const Absence = (props) => {
     const [width, height] = useWindowSize()
 
     return <div className={styles.main}>
-        {
-            width < 700 && receiver && <div><BackButton /></div>
-        }
         <span className={styles.text}>{props.text}</span>
     </div>
 }

@@ -5,6 +5,7 @@ import userLogo from '../../../assets/imgs/user_icon.png'
 import { resetImportance } from "../../../redux/actions";
 import { importanceConvert } from "../../../utils/importanceConvert";
 import styles from './userPage.module.css';
+import Labels from "../labels/labels";
 
 const UserPage = ({ contact }) => {
 
@@ -21,7 +22,6 @@ const UserPage = ({ contact }) => {
         dispatch(resetImportance(contact.login, importanceValue))
         MessageAPI.setImportance(login, contact.login, importanceValue)
     }
-
     return <div className={styles.profile}>
         <div className={styles.ava} >
             <img
@@ -45,6 +45,10 @@ const UserPage = ({ contact }) => {
                 <div className={styles.info}>Фамилия:</div>
                 <div className={styles.info}>{contact.lastname}</div>
             </div>
+            <div className={styles.contactData}>
+                <div className={styles.info}>email:</div>
+                <div className={styles.info}>{contact.email ? contact.email : 'Не указано'}</div>
+            </div>
         </div>
         {
             isFinite(contact.importance) && <>
@@ -58,7 +62,15 @@ const UserPage = ({ contact }) => {
                         onBlur={importanceHandler}
                         onTouchEnd={importanceHandler}
                     />
-                    <div className={styles.importanceStatus}>{importanceConvert(importanceValue)}</div>
+                    <div className={styles.importanceStatus}>{isFinite(importanceValue) && importanceConvert(importanceValue)}</div>
+                </div>
+                <div className={styles.label}>Теги для поиска:</div>
+                <div className={styles.tag}>
+                    <Labels
+                        labels={contact.labels}
+                        ownerLogin={login}
+                        contactLogin={contact.login}
+                    />
                 </div>
             </>
         }

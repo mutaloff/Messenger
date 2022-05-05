@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from './roundCheckbox.module.css'
 
-const RountCheckbox = ({ checkHandler, element, uncheck }) => {
-    const [isChecked, setIsChecked] = useState(false)
+const RountCheckbox = ({ checkHandler, element, uncheck, checking = false }) => {
+
+    const [isChecked, setIsChecked] = useState(checking)
 
     const clickHandler = (e) => {
         setIsChecked(!isChecked)

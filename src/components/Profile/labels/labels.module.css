@@ -1,0 +1,56 @@
+.base {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.tagBar {
+    display: flex;
+    overflow: scroll;
+}
+
+.tag {
+    margin: 0 5px;
+    display: block;
+    min-width: max-content;
+}
+
+.cross {
+    display: flex;
+    padding-top: 10px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.plus:hover {
+    opacity: 70%;
+}
+
+.cross:hover {
+    opacity: 70%;
+}
+
+.plus {
+    cursor: pointer;
+    align-self: center;
+    padding-left: 10px;
+    font-size: 50px;
+    padding-bottom: 10px;
+    min-width: 30px;
+}
+
+.input {
+    padding-top: 5px;
+    height: 30px;
+    align-self: center;
+    background-color: rgb(168, 160, 160);
+    border: none;
+    margin-left: 8px;
+    outline: none;
+    color: whitesmoke;
+    font-size: 25px;
+    border-radius: 8px;
+    padding-bottom: 3px;
+    min-width: 100px;
+}

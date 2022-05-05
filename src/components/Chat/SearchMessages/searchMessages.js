@@ -24,11 +24,11 @@ const SearchMessages = ({ setSearchingText, searchingText, loginFrom, loginTo, i
     }
 
     const searchHandler = (e) => {
-        dispatch(getMessages(loginTo, loginFrom, 0, false, 50, searchingText))
+        dispatch(getMessages(loginTo, loginFrom, 0, false, 50, searchingText, false))
         dispatch(setReadyPoint(true))
     }
     const readyHandler = (e) => {
-        isSearching && dispatch(getMessages(loginTo, loginFrom, 0, false, 50));
+        isSearching && dispatch(getMessages(loginTo, loginFrom, 0, false, 50, false, false));
         setIsSearching(false)
         dispatch(setReadyPoint(false))
         setSearchingText('')

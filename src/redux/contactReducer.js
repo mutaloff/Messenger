@@ -6,6 +6,7 @@ import { CREATECONTACT, SEARCHCONTACT, SETSUBSCRIPTION, UPDATELEAVINGTIME, RESET
 const initialState = {
     contacts: [],
     subscription: false,
+    isSearching: false
 }
 
 export const contactReducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ export const contactReducer = (state = initialState, action) => {
         case CREATECONTACT:
             return {
                 ...state,
-                contacts: action.payload
+                contacts: action.payload,
+                isSearching: false
             }
         case SETSUBSCRIPTION:
             return {
@@ -28,7 +30,8 @@ export const contactReducer = (state = initialState, action) => {
         case SEARCHCONTACT:
             return {
                 ...state,
-                contacts: action.payload
+                contacts: action.payload,
+                isSearching: true
             }
         case RESETMESSAGECOUNT:
             return {
@@ -78,12 +81,14 @@ export const getContacts = (login) => {
     }
 }
 
-export const addUser = (userData) => {
-    UserAPI.addUser(userData.login, userData.password, userData.firstname, userData.lastname)
-}
-
 export const searchUser = (login) => {
     return (dispatch) => {
         UserAPI.searchUser(login).then(data => dispatch(searchContact(data)))
+    }
+}
+
+export const searchLabels = (login, label) => {
+    return (dispatch) => {
+        UserAPI.searchLabels(login, label).then(data => dispatch(searchContact(data)))
     }
 }

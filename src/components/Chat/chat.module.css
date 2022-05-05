@@ -1,10 +1,13 @@
 @import url('../../assets/fonts/Exo2/exo2.css');
 
-.chat{
+.chat {
     display: flex;
     flex-direction: column;
     flex: auto;
+    position: relative;
 }
+
+
 
 .infoBar {
     height: 40px;
@@ -16,12 +19,42 @@
     color: rgb(105, 104, 182);
     text-decoration: none;
     position: relative;
-    border-bottom: rgb(180, 180, 180) solid 1px;
 }
 
+.buttons {
+    color: rgb(105, 104, 182);
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: rgb(180, 180, 180) solid 1px;
+    cursor: pointer;
+    font-family: 'Exo2';
+    height: 30px;
+}
 
-.textInput{
+.tasks {
+    width: 100%;
+    text-align: center;
+    padding: 5px 0px;
+    opacity: 70%;
+}
+
+.tasks:hover,
+.messages:hover {
+    color: rgb(52, 52, 103);
+}
+
+.messages {
+    padding: 5px 0px;
+    width: 100%;
+    text-align: center;
+    border-bottom: rgb(105, 104, 182) solid 2px;
+}
+
+.textInput {
+    display: flex;
     margin: 0 5px;
+    width: 100%;
 }
 
 .name {
@@ -42,5 +75,24 @@
 }
 
 .deleteMessages:hover {
+    opacity: 70%;
+}
+
+.assignment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.assignmentIcon {
+    width: 30px;
+    height: 30px;
+    padding-bottom: 3px;
+}
+
+.assignmentIcon:hover {
     opacity: 70%;
 }
