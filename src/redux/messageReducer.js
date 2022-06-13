@@ -136,6 +136,7 @@ export const getMessages = (sender, receiver, page, toAdd, limit, searchText, is
                 if (isSpam) {
                     dispatch(getUserSpam(data.messages.filter(message => (message.sender_login === sender)).filter(message => !message.email || message.is_spam)))
                 } else {
+                    dispatch(setMessagesCount(data.totalCount))
                     dispatch(getUserMessages(data.messages.filter(message => !message.is_spam), toAdd))
                 }
             })

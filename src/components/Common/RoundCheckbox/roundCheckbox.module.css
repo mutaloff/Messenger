@@ -2,8 +2,8 @@
     height: 30px;
     width: 30px;
   }
-  
-  label {
+
+  .label {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 50%;
@@ -14,8 +14,8 @@
     top: 0;
     width: 28px;
   }
-  
-  .round label:after {
+
+  .round .label:after {
     border: 2px solid #fff;
     border-top: none;
     border-right: none;
@@ -28,15 +28,15 @@
     transform: rotate(-45deg);
     width: 12px;
   }
-  
+
   .round input[type="checkbox"] {
     visibility: hidden;
   }
-  
-  .round input[type="checkbox"]:checked + label {
+
+  .round input[type="checkbox"]:checked+.label {
     background-color: #41319b;
   }
-  
-  .round input[type="checkbox"]:checked + label:after {
+
+  .round input[type="checkbox"]:checked+.label:after {
     opacity: 1;
   }

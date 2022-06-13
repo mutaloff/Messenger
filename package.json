@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@daypilot/daypilot-lite-react": "^3.4.0",
     "axios": "^0.24.0",
     "file-loader": "^6.2.0",
     "normalize.css": "^8.0.1",

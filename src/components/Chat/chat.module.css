@@ -88,11 +88,24 @@
 }
 
 .assignmentIcon {
-    width: 30px;
-    height: 30px;
-    padding-bottom: 3px;
+    width: 28px;
+    height: 28px;
+    padding-bottom: 2px;
+}
+
+.docIcon {
+    width: 31px;
+    height: 31px;
+}
+
+.docIcon:hover {
+    opacity: 70%;
 }
 
 .assignmentIcon:hover {
     opacity: 70%;
+}
+
+.assignment>input {
+    display: none;
 }

@@ -74,7 +74,6 @@ export const authReducer = (state = initialState, action) => {
                 isRegistrated: true
             }
         case ENTRYERROR:
-            console.log(action.payload.condition)
             return {
                 ...state,
                 entryError: action.payload

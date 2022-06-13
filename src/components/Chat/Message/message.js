@@ -1,6 +1,7 @@
 import styles from './message.module.css'
 import React, { useEffect, useState } from 'react'
 import userLogo from '../../../assets/imgs/user_icon.png';
+import planLogo from '../../../assets/imgs/planning-icon.png';
 import { useRef } from 'react';
 import { checkSource } from '../../../utils/checkSourse';
 import RountCheckbox from '../../Common/RoundCheckbox/roundCheckbox';
@@ -152,8 +153,18 @@ function Message({ message, messages, index, loginTo, userData, receiverData, sh
             }
             {
                 message?.is_spam == 1 && message?.sender_login == loginTo &&
-                <div className={styles.spam} onClick={spamHandler}>Не спам</div>
+                <div className={styles.spam} onClick={spamHandler}>Важно</div>
             }
+            <div >
+                <div className={styles.assignment} style={{ paddingTop: '4px' }}>
+                    {
+                        !message?.is_spam == 1 && !message?.assignment &&
+                        <>
+                            <img src={planLogo} className={styles.planIcon}></img>
+                        </>
+                    }
+                </div>
+            </div>
             <div className={styles.time}>
                 {
                     message.date

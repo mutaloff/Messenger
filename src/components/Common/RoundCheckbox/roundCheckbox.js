@@ -13,7 +13,7 @@ const RountCheckbox = ({ checkHandler, element, uncheck, checking = false }) => 
 
     return <div className={styles.round} onClick={clickHandler}>
         <input type="checkbox" checked={isChecked} onChange={clickHandler} />
-        <label htmlFor="checkbox"></label>
+        <label htmlFor="checkbox" className={styles.label}></label>
     </div>
 }
 

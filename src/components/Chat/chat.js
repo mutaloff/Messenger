@@ -21,6 +21,7 @@ import SearchMessages from "./SearchMessages/searchMessages";
 import { getContacts } from "../../redux/contactReducer";
 import AssignmentPopup from "../Common/Popup/AssignmentPopup/assignmentPopup";
 import assignmentIcon from "./../../assets/imgs/assignment.png"
+import docIcon from "./../../assets/imgs/doc-icon.png"
 
 function Chat(props) {
 
@@ -184,7 +185,7 @@ function Chat(props) {
                     borderBottom: tabState === 2 ? 'rgb(105, 104, 182) solid 2px' : 'rgb(180, 180, 180) solid 1px'
                 }}
                 className={styles.tasks}>
-                Спам
+                Досуг
             </div>
         </div>
         {
@@ -206,6 +207,12 @@ function Chat(props) {
                         <div className={styles.textInput}>
                             <div className={styles.assignment} onClick={() => setDisplayAssignment(true)}>
                                 <img src={assignmentIcon} className={styles.assignmentIcon} />
+                            </div>
+                            <div className={styles.assignment} style={{ paddingTop: '4px' }}>
+                                <label htmlFor="file-input">
+                                    <img src={docIcon} className={styles.docIcon}></img>
+                                </label>
+                                <input id="file-input" type="file" />
                             </div>
                             <TextInput hasMessages={hasMessages} />
                         </div>

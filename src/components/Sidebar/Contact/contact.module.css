@@ -1,6 +1,6 @@
 @import url('../../../assets/fonts/Exo2/exo2.css');
 
-.contactBar{
+.contactBar {
     display: flex;
     flex-direction: row;
     min-width: 100%;
@@ -21,15 +21,15 @@
     opacity: 70%;
 }
 
-.icon{
+.icon {
     border-radius: 50%;
     object-fit: cover;
     width: 50px;
     height: 50px;
 }
 
-.user{
-    border-bottom: rgba(71, 5, 5, 0.356) solid 1px;
+.user {
+    border-bottom: rgba(71, 5, 5, 0.356) solid 0.5px;
     flex: auto;
     color: rgb(204, 204, 204);
     margin-left: 10px;
@@ -39,7 +39,7 @@
     white-space: nowrap;
 }
 
-.contactBar{
+.contactBar {
     outline: none;
     flex: auto;
     min-height: 60px;
@@ -60,7 +60,7 @@
     color: whitesmoke;
 }
 
-.onlineDot{
+.onlineDot {
     background-color: rgb(14, 223, 14);
     position: absolute;
     border-radius: 50%;
@@ -68,8 +68,8 @@
     width: 10px;
     left: 49px;
     bottom: 5px;
-    background: radial-gradient(circle closest-side, rgb(8, 236, 8) 3px, 
-    rgb(94, 182, 249));
+    background: radial-gradient(circle closest-side, rgb(8, 236, 8) 3px,
+            rgb(94, 182, 249));
 }
 
 .online {
@@ -83,10 +83,11 @@
 }
 
 .date {
+    padding-top: 0.5px;
     height: 99%;
     display: block;
     min-width: fit-content;
     font-size: 14px;
     align-self: flex-start;
-    border-bottom: rgba(71, 5, 5, 0.356) solid 1px;
+    border-bottom: rgba(71, 5, 5, 0.356) solid 0.5px;
 }

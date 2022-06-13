@@ -56,12 +56,12 @@ function Contact(props) {
     })
     const isAvatarExists = props.contact.avatar && checkSource(props.contact.avatar)
 
-    return <div style={!props.navPanelIsVisible ? { width: 63 + 'px' } : {}} className={styles.contactBar}>
+    return <div style={!props.navPanelIsVisible ? { width: 63 + 'px' } : { width: 63 + 'px' }} className={styles.contactBar}>
         <Link
             className={styles.contact}
             onClick={clickHandler}
             to={!props.disabled ? props.link : ""}
-            style={props.navPanelIsVisible ? { width: props.width - 25 } : { width: props.width }}>
+            style={props.navPanelIsVisible ? { width: props.width - (subscribeState ? 120 : 30) } : { width: props.width }}>
             <img
                 src={isAvatarExists ? props.contact.avatar : userLogo}
                 style={{

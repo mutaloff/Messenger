@@ -119,3 +119,12 @@
     height: 26px;
     padding-bottom: 3px;
 }
+
+.planning {
+    width: 80px
+}
+
+.planIcon {
+    width: 30px;
+    height: 30px;
+}

@@ -14,6 +14,7 @@ import socket from "./socket";
 import messageSound from './../src/assets/sounds/message-sound.mp3'
 import { getUserAssignment, sendAssignment, sendMessage } from "./redux/actions";
 import { getContacts } from "./redux/contactReducer";
+import Calendar from "./components/Calendar/calendar";
 
 function App() {
 
@@ -69,6 +70,7 @@ function App() {
                         <Route path={'*'} element={<Navigate replace to={page} />} />
                         <Route path={'messages/:login'} element={<Chat />} />
                         <Route path={'settings'} element={<Settings />} />
+                        <Route path={'calendar'} element={<Calendar />} />
                         <Route path={'messages'} element={<Absence text='Выберите чат, чтобы начать переписку' />} />
                         <Route path={'users'} element={<Absence text='Выберите контакт, чтобы посмотреть профиль' />} />
                         <Route path={'users/:login'} element={<Profile />} />
